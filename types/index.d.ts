@@ -10,6 +10,7 @@ export declare type OptionsType = {
   format: FormatType;
   json: string | null;
   concurrency: number;
+  includeSize: boolean;
 };
 
 export declare type ImageType = {
