@@ -11,6 +11,10 @@ The format is inspired by [Keep a Changelog](https://keepachangelog.com/en/1.0.0
 - Added optional `includeSize` parameter to include image width and height in the JSON manifest.
 - Support for `includeSize` in both interactive mode and CLI arguments.
 
+### Fixed
+
+- Fixed an issue where selecting `avif` format resulted in an empty JSON file due to missing extension support in the image filter.
+
 ## [1.0.1] - 2025-12-29
 
 ### Changed

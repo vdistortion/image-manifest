@@ -4,6 +4,8 @@ import sharp from 'sharp';
 import { getStructure, traverseStructure, type File, type Folder } from 'directory-structure-json';
 import { getPath } from './get-path.js';
 
+const isImageExtended = (name: string) => isImage(name) || name.toLowerCase().endsWith('.avif');
+
 export const toJson = (jsonName: string, basePath: string, includeSize: boolean) =>
   new Promise((resolve, reject) => {
     getStructure(
@@ -21,7 +23,7 @@ export const toJson = (jsonName: string, basePath: string, includeSize: boolean)
           for (const item of items) {
             if (item.type === 'folder' && item.children) {
               await enrichWithDimensions(item.children);
-            } else if (item.type === 'file' && isImage(item.name)) {
+            } else if (item.type === 'file' && isImageExtended(item.name)) {
               const fullPath = getPath(basePath, item.path || '', item.name);
 
               if (includeSize) {
@@ -47,7 +49,7 @@ export const toJson = (jsonName: string, basePath: string, includeSize: boolean)
           if (Array.isArray(value)) {
             return value.filter((item) => {
               const isFolder = item.type === 'folder';
-              const isImageFile = item.type === 'file' && isImage(item.name);
+              const isImageFile = item.type === 'file' && isImageExtended(item.name);
               return isFolder || isImageFile;
             });
           }
