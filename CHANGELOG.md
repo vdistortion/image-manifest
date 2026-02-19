@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is inspired by [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.1.0] - 2026-02-19
+
+### Added
+
+- Added optional `includeSize` parameter to include image width and height in the JSON manifest.
+- Support for `includeSize` in both interactive mode and CLI arguments.
+
 ## [1.0.1] - 2025-12-29
 
 ### Changed

@@ -29,6 +29,7 @@ npx to-static-images@latest
 | width       | number \| null | Максимальная ширина изображения в пикселях                              | null         |
 | height      | number \| null | Максимальная высота изображения в пикселях                              | null         |
 | concurrency | number         | Максимум одновременно обрабатываемых изображений                        | 5            |
+| includeSize | boolean        | Включить размеры изображений (ширину и высоту) в JSON                   | false        |
 
 ## ✨ Примеры
 

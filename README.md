@@ -35,6 +35,7 @@ npx to-static-images@latest
 | width       | number \| null | Maximum image width in pixels                                              | null     |
 | height      | number \| null | Maximum image height in pixels                                             | null     |
 | concurrency | number         | Maximum number of concurrent image processing tasks                        | 5        |
+| includeSize | boolean        | Include image dimensions (width and height) in the JSON manifest           | false    |
 
 ## ✨ Examples
 

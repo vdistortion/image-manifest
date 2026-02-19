@@ -29,6 +29,7 @@ npx to-static-images@latest
 | width       | number \| null | Maximale Bildbreite in Pixeln                                          | null     |
 | height      | number \| null | Maximale Bildhöhe in Pixeln                                            | null     |
 | concurrency | number         | Maximale Anzahl gleichzeitiger Bildverarbeitungsaufgaben               | 5        |
+| includeSize | boolean        | Bildabmessungen (Breite und Höhe) in das JSON aufnehmen                | false    |
 
 ## ✨ Beispiele
 
