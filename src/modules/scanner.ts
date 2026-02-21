@@ -1,4 +1,4 @@
-import { resolve, sep } from 'node:path';
+import { relative, dirname, resolve, sep } from 'node:path';
 import { readdir, stat } from 'node:fs/promises';
 import isImage from 'is-image';
 import pLimit from 'p-limit';
@@ -35,11 +35,14 @@ export const scanner = (
               return Promise.resolve();
             return scanner(newPath, dirSrc, dirDist, maxWidth, maxHeight, format, concurrency);
           } else if (isImage(file)) {
-            const distPath = newPath.replace(dirSrc, dirDist).split(sep).slice(0, -1);
+            const relativePath = relative(dirSrc, newPath); // путь файла относительно папки-источника
+            const finalDistPath = resolve(dirDist, relativePath); // полный путь в папке-назначении
+            const distFolder = dirname(finalDistPath); // только папка, где будет лежать файл
+
             const image: ImageType = {
               name: file,
               path: newPath,
-              dist: getPath(...distPath),
+              dist: distFolder,
             };
             return imageProcessing(image, maxWidth, maxHeight, format).then(() => {
               done++;

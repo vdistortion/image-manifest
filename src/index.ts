@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { existsSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { confirm, input, number, rawlist } from '@inquirer/prompts';
 import { toJson } from './modules/to-json.js';
 import { getPath } from './modules/get-path.js';
@@ -150,14 +151,18 @@ async function start() {
     ...params,
   };
 
-  if (!existsSync(settings.src)) {
+  const absSrc = resolve(settings.src);
+  const absDist = resolve(settings.dist);
+
+  if (!existsSync(absSrc)) {
     console.warn('\x1b[31m', `"${settings.src}" directory not found!`, '\x1b[0m');
   } else {
-    await recreateDist(settings.dist);
+    await recreateDist(absDist);
+
     await scanner(
-      settings.src,
-      settings.src,
-      settings.dist,
+      absSrc,
+      absSrc,
+      absDist,
       settings.width,
       settings.height,
       settings.format,
@@ -165,10 +170,9 @@ async function start() {
     );
 
     if (settings.json) {
-      const nameJson = getPath(settings.dist, `${settings.json}.json`);
-      toJson(nameJson, settings.dist, settings.includeSize).then(() =>
-        console.info(`File ./${nameJson} generated!`),
-      );
+      const nameJson = getPath(absDist, `${settings.json}.json`);
+      await toJson(nameJson, absDist, settings.includeSize);
+      console.info(`File ./${nameJson} generated!`);
     }
   }
 

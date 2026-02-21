@@ -1,3 +1,3 @@
-import { sep } from 'node:path';
+import { join } from 'node:path';
 
-export const getPath = (...args: string[]) => args.join(sep);
+export const getPath = (...args: string[]) => join(...args);

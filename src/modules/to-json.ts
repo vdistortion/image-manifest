@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import path from 'node:path';
 import isImage from 'is-image';
 import sharp from 'sharp';
 import { getStructure, traverseStructure, type File, type Folder } from 'directory-structure-json';
@@ -19,12 +20,12 @@ export const toJson = (jsonName: string, basePath: string, includeSize: boolean)
 
         const list: string[] = [];
 
-        const enrichWithDimensions = async (items: any[]) => {
+        const enrichWithDimensions = async (items: any[], currentPath: string = basePath) => {
           for (const item of items) {
             if (item.type === 'folder' && item.children) {
-              await enrichWithDimensions(item.children);
+              await enrichWithDimensions(item.children, path.join(currentPath, item.name));
             } else if (item.type === 'file' && isImageExtended(item.name)) {
-              const fullPath = getPath(basePath, item.path || '', item.name);
+              const fullPath = path.resolve(currentPath, item.name);
 
               if (includeSize) {
                 try {
@@ -32,7 +33,7 @@ export const toJson = (jsonName: string, basePath: string, includeSize: boolean)
                   item.width = metadata.width;
                   item.height = metadata.height;
                 } catch (e) {
-                  console.warn(`Could not read size for ${item.name}`);
+                  console.warn(`Could not read size for ${item.name}. Path: ${fullPath}`);
                 }
               }
               list.push(fullPath);

@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The format is inspired by [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.1.1] - 2026-02-21
+
+### Fixed
+
+- Fixed "Input file is missing" errors by improving path normalization using `path.resolve` and `path.join` across all modules.
+- Improved nested directory handling in the JSON manifest generator by properly tracking recursive paths.
+- Replaced unreliable string replacement logic in the scanner with robust relative path resolution to prevent incorrect output paths.
+- Ensured the application correctly waits for JSON generation to complete before finishing the process.
+
 ## [1.1.0] - 2026-02-19
 
 ### Added
