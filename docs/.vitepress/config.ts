@@ -4,8 +4,8 @@ import { defineConfig } from 'vitepress';
 export default defineConfig({
   title: 'to-static-images',
   description: 'Image conversion for static websites',
-  base: '/to-static-images/',
-  head: [['link', { rel: 'icon', href: '/to-static-images/favicon.ico' }]],
+  base: '/',
+  head: [['link', { rel: 'icon', href: '/favicon.ico' }]],
   locales: {
     root: {
       label: '🇬🇧 English',

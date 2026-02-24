@@ -5,7 +5,7 @@
   "main": "./dist/index.js",
   "type": "module",
   "bin": "./dist/index.js",
-  "homepage": "https://vdistortion.github.io/to-static-images/",
+  "homepage": "https://to-static-images.zvalentin.ru",
   "repository": {
     "type": "git",
     "url": "git@github.com:vdistortion/to-static-images.git"
@@ -15,7 +15,7 @@
     "start": "node ./dist/index.js",
     "build": "rimraf ./dist && tsc && tsc-alias",
     "public:lib": "npm run build && npm publish",
-    "public:gh-pages": "gh-pages -d docs/.vitepress/dist -t --nojekyll",
+    "public:gh-pages": "gh-pages -d docs/.vitepress/dist -t --nojekyll --cname to-static-images.zvalentin.ru",
     "public": "npm run docs:build && npm run public:gh-pages",
     "format": "prettier . --write",
     "docs:dev": "vitepress dev docs",

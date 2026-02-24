@@ -6,7 +6,7 @@
 [![GitHub Created At](https://img.shields.io/github/created-at/vdistortion/to-static-images?style=flat&logo=github)](https://github.com/vdistortion/to-static-images)
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/vdistortion/to-static-images)
 
-[![to-static-images](docs/bg.jpg)](https://vdistortion.github.io/to-static-images/)
+[![to-static-images](docs/bg.jpg)](https://to-static-images.zvalentin.ru)
 
 A CLI tool that converts images to the desired format, generates a structured JSON map of the output files, and optionally resizes them by width and/or height. Useful for static sites, galleries, and automation.
 
