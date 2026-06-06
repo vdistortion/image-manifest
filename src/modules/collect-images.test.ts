@@ -8,7 +8,7 @@ describe('collectImages', () => {
   let tmpDir: string;
 
   beforeAll(async () => {
-    tmpDir = await mkdtemp(join(tmpdir(), 'to-static-images-test-'));
+    tmpDir = await mkdtemp(join(tmpdir(), 'image-manifest-test-'));
     await mkdir(join(tmpDir, 'nested'));
     await writeFile(join(tmpDir, 'a.jpg'), '');
     await writeFile(join(tmpDir, 'nested', 'b.png'), '');

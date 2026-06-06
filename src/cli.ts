@@ -9,7 +9,7 @@ import type { OptionsType, FormatType } from './types.js';
 const defaultFormat = 'webp';
 const formats: FormatType[] = ['original', defaultFormat, 'jpg', 'png', 'avif'];
 
-const explorer = cosmiconfig('to-static-images');
+const explorer = cosmiconfig('image-manifest');
 
 async function getInteractiveOptions(): Promise<OptionsType> {
   const src = await input({
@@ -68,7 +68,7 @@ const defaultOptions: OptionsType = {
 const program = new Command();
 
 program
-  .name('to-static-images')
+  .name('image-manifest')
   .description('Convert images and generate JSON manifest')
   .option('-s, --src <path>', 'source directory', defaultOptions.src)
   .option('-d, --dist <path>', 'output directory', defaultOptions.dist)

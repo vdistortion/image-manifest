@@ -1,14 +1,14 @@
 {
-  "name": "to-static-images",
+  "name": "image-manifest",
   "version": "1.1.1",
   "description": "CLI tool to batch-convert and resize images (webp, avif, png, jpg) and generate a JSON directory manifest — for static sites and galleries",
   "main": "./dist/index.js",
   "type": "module",
   "bin": "./dist/cli.js",
-  "homepage": "https://to-static-images.zvalentin.ru",
+  "homepage": "https://image-manifest.zvalentin.ru",
   "repository": {
     "type": "git",
-    "url": "git@github.com:vdistortion/to-static-images.git"
+    "url": "git@github.com:vdistortion/image-manifest.git"
   },
   "scripts": {
     "dev": "tsx src/index.ts",

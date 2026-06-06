@@ -1,6 +1,6 @@
-# to-static-images
+# image-manifest
 
-![to-static-images](/logo.webp)
+![image-manifest](/logo.webp)
 
 Инструмент командной строки, который конвертирует изображения в нужный формат, генерирует структуру файлов в формате JSON и при необходимости изменяет размеры. Полезен для статических сайтов, галерей и автоматизации.
 
@@ -15,7 +15,7 @@ mkdir img-src
 Поместите изображения в `img-src`
 
 ```shell
-npx to-static-images@latest
+npx image-manifest@latest
 ```
 
 ## 💻 Параметры командной строки
@@ -34,15 +34,15 @@ npx to-static-images@latest
 ## ✨ Примеры
 
 ```shell
-npx to-static-images json=static-images format=original
+npx image-manifest json=static-images format=original
 ```
 
 ```shell
-npx to-static-images src=sources height=2000
+npx image-manifest src=sources height=2000
 ```
 
 Запуск без аргументов (интерактивный режим)
 
 ```shell
-npx to-static-images
+npx image-manifest
 ```

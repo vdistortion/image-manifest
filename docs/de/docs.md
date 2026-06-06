@@ -1,6 +1,6 @@
-# to-static-images
+# image-manifest
 
-![to-static-images](/logo.webp)
+![image-manifest](/logo.webp)
 
 Ein CLI-Tool, das Bilder in das gewünschte Format konvertiert, eine Dateistruktur im JSON-Format generiert und bei Bedarf die Größe ändert. Nützlich für statische Websites, Galerien und Automatisierung.
 
@@ -15,7 +15,7 @@ mkdir img-src
 Legen Sie Bilder in den Ordner `img-src`
 
 ```shell
-npx to-static-images@latest
+npx image-manifest@latest
 ```
 
 ## 💻 Befehlszeilenoptionen
@@ -34,15 +34,15 @@ npx to-static-images@latest
 ## ✨ Beispiele
 
 ```shell
-npx to-static-images json=static-images format=original
+npx image-manifest json=static-images format=original
 ```
 
 ```shell
-npx to-static-images src=sources height=2000
+npx image-manifest src=sources height=2000
 ```
 
 Start ohne Argumente (interaktiver Modus)
 
 ```shell
-npx to-static-images
+npx image-manifest
 ```

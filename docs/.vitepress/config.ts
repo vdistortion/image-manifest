@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitepress';
 
 export default defineConfig({
-  title: 'to-static-images',
+  title: 'image-manifest',
   description: 'Image conversion for static websites',
   base: '/',
   head: [['link', { rel: 'icon', href: '/favicon.ico' }]],
@@ -23,7 +23,7 @@ export default defineConfig({
         sidebar: [
           {
             text: 'Dokumentation',
-            items: [{ text: 'to-static-images', link: '/de/docs' }],
+            items: [{ text: 'image-manifest', link: '/de/docs' }],
           },
         ],
       },
@@ -41,7 +41,7 @@ export default defineConfig({
         sidebar: [
           {
             text: 'Документація',
-            items: [{ text: 'to-static-images', link: '/ua/docs' }],
+            items: [{ text: 'image-manifest', link: '/ua/docs' }],
           },
         ],
       },
@@ -59,7 +59,7 @@ export default defineConfig({
         sidebar: [
           {
             text: 'Документация',
-            items: [{ text: 'to-static-images', link: '/ru/docs' }],
+            items: [{ text: 'image-manifest', link: '/ru/docs' }],
           },
         ],
       },
@@ -74,13 +74,13 @@ export default defineConfig({
     sidebar: [
       {
         text: 'Docs',
-        items: [{ text: 'to-static-images', link: '/docs' }],
+        items: [{ text: 'image-manifest', link: '/docs' }],
       },
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vdistortion/to-static-images' },
-      { icon: 'npm', link: 'https://www.npmjs.com/package/to-static-images' },
+      { icon: 'github', link: 'https://github.com/vdistortion/image-manifest' },
+      { icon: 'npm', link: 'https://www.npmjs.com/package/image-manifest' },
     ],
   },
 });

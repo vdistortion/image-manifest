@@ -2,7 +2,7 @@
 layout: home
 
 hero:
-  name: 'to-static-images'
+  name: 'image-manifest'
   text: 'Преобразование изображений'
   tagline: для статических сайтов
   image: /logo.webp
@@ -12,10 +12,10 @@ hero:
       link: /ru/docs
     - theme: alt
       text: GitHub
-      link: https://github.com/vdistortion/to-static-images
+      link: https://github.com/vdistortion/image-manifest
     - theme: alt
       text: NPM
-      link: https://www.npmjs.com/package/to-static-images
+      link: https://www.npmjs.com/package/image-manifest
 
 features:
   - title: Преобразование форматов изображений
@@ -29,7 +29,7 @@ features:
 ## 🚀 Запуск
 
 ```sh
-npx to-static-images@latest
+npx image-manifest@latest
 ```
 
 ## 🌍 Переводы
