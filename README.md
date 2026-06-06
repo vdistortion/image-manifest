@@ -9,6 +9,8 @@
 
 A CLI tool that converts images to the desired format, generates a structured JSON map of the output files, and optionally resizes them by width and/or height. Useful for static sites, galleries, and automation.
 
+> ⭐ **Like this tool?** Give it a star on [GitHub](https://github.com/vdistortion/to-static-images) — it helps others discover the project!
+
 ## 📖 Usage
 
 Create an `img-src` folder

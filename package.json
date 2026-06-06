@@ -4,7 +4,7 @@
   "description": "CLI tool to batch-convert and resize images (webp, avif, png, jpg) and generate a JSON directory manifest — for static sites and galleries",
   "main": "./dist/index.js",
   "type": "module",
-  "bin": "./dist/index.js",
+  "bin": "./dist/cli.js",
   "homepage": "https://to-static-images.zvalentin.ru",
   "repository": {
     "type": "git",
@@ -56,6 +56,8 @@
   "dependencies": {
     "@inquirer/prompts": "^8.5.2",
     "cli-progress": "^3.12.0",
+    "commander": "^15.0.0",
+    "cosmiconfig": "^9.0.1",
     "directory-structure-json": "^1.0.0",
     "p-limit": "^7.3.0",
     "sharp": "^0.34.5"
@@ -67,10 +69,10 @@
     "prettier": "3.8.3",
     "tsx": "^4.22.4",
     "typescript": "^6.0.3",
-    "vitepress": "^1.6.4"
+    "vitepress": "^1.6.4",
+    "vitest": "^4.1.8"
   },
   "files": [
-    "dist",
-    "types"
+    "dist"
   ]
 }

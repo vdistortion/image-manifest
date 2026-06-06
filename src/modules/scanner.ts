@@ -1,56 +1,39 @@
-import { relative, dirname, resolve, sep, join } from 'node:path';
-import { readdir, stat } from 'node:fs/promises';
 import pLimit from 'p-limit';
 import { SingleBar, Presets } from 'cli-progress';
 import { imageProcessing } from './image-processing.js';
-import { isImage } from './is-image.js';
-import type { FormatType, ImageType, MaxSizeType } from '../types.js';
+import { collectImages } from './collect-images.js';
+import type { FormatType, MaxSizeType } from '../types.js';
 
-export const scanner = (
-  initPath: string,
-  dirSrc: string,
-  dirDist: string,
+export const scanner = async (
+  srcDir: string,
+  distDir: string,
   maxWidth: MaxSizeType,
   maxHeight: MaxSizeType,
   format: FormatType,
   concurrency: number,
 ): Promise<void> => {
-  const absDist = resolve(dirDist);
+  // 1. Собрать все файлы-изображения
+  const images = await collectImages(srcDir, srcDir, distDir);
+  if (images.length === 0) {
+    console.log('No images found.');
+    return;
+  }
 
-  return readdir(initPath).then((files) => {
-    const bar = new SingleBar({}, Presets.rect);
-    const limit = pLimit(concurrency);
-    let done = 0;
-    bar.start(files.length, 0);
+  // 2. Создать один прогресс-бар
+  const bar = new SingleBar({}, Presets.rect);
+  bar.start(images.length, 0);
 
-    const promises = files.map((file) =>
-      limit(async () => {
-        const newPath = join(initPath, file);
+  const limit = pLimit(concurrency);
+  let processed = 0;
 
-        return stat(newPath).then(async (stats) => {
-          if (stats.isDirectory()) {
-            const absNewPath = resolve(newPath);
-            if (absNewPath === absDist || absNewPath.startsWith(absDist + sep))
-              return Promise.resolve();
-            return scanner(newPath, dirSrc, dirDist, maxWidth, maxHeight, format, concurrency);
-          } else if (isImage(file)) {
-            const relativePath = relative(dirSrc, newPath); // путь файла относительно папки-источника
-            const finalDistPath = resolve(dirDist, relativePath); // полный путь в папке-назначении
-            const distFolder = dirname(finalDistPath); // только папка, где будет лежать файл
+  const tasks = images.map((image) =>
+    limit(async () => {
+      await imageProcessing(image, maxWidth, maxHeight, format);
+      processed++;
+      bar.update(processed);
+    }),
+  );
 
-            const image: ImageType = {
-              name: file,
-              path: newPath,
-              dist: distFolder,
-            };
-            return imageProcessing(image, maxWidth, maxHeight, format).then(() => {
-              done++;
-              bar.update(done);
-            });
-          } else return Promise.resolve();
-        });
-      }),
-    );
-    return Promise.all(promises).then(() => bar.stop());
-  });
+  await Promise.all(tasks);
+  bar.stop();
 };

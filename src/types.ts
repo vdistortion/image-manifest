@@ -11,6 +11,7 @@ export type OptionsType = {
   json: string | null;
   concurrency: number;
   includeSize: boolean;
+  manifestOnly?: boolean;
 };
 
 export type ImageType = {
