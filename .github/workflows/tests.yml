@@ -3,6 +3,12 @@ name: Tests
 on:
   push:
     branches: [main]
+    paths:
+      - 'src/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig.json'
+      - '.github/workflows/test.yml'
   workflow_dispatch:
 
 jobs:
