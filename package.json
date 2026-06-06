@@ -16,6 +16,7 @@
     "build": "rm -rf ./dist && tsc",
     "public:lib": "npm run build && npm publish",
     "format": "prettier . --write",
+    "test": "vitest run",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"
