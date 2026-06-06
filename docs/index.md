@@ -3,19 +3,13 @@ layout: home
 
 hero:
   name: 'image-manifest'
-  text: 'Image conversion'
+  text: 'JSON manifest for images'
   tagline: for static websites
   image: /logo.webp
   actions:
     - theme: brand
       text: Docs
       link: /docs
-    - theme: alt
-      text: GitHub
-      link: https://github.com/vdistortion/image-manifest
-    - theme: alt
-      text: NPM
-      link: https://www.npmjs.com/package/image-manifest
 
 features:
   - title: Image format conversion

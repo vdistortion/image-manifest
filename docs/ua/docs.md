@@ -1,8 +1,14 @@
+---
+sidebar: false
+---
+
 # image-manifest
 
 ![image-manifest](/logo.webp)
 
 CLI-інструмент, який конвертує зображення у потрібний формат, генерує структуру файлів у форматі JSON та за потреби змінює розміри. Корисний для статичних сайтів, галерей та автоматизації.
+
+`npx image-manifest --help` покаже всі доступні опції.
 
 ## 📖 Приклад використання
 
@@ -20,29 +26,82 @@ npx image-manifest@latest
 
 ## 💻 Параметри командного рядка
 
-| Параметр    | Тип            | Опис                                                                      | За замовчуванням |
-| ----------- | -------------- | ------------------------------------------------------------------------- | ---------------- |
-| src         | string         | Назва вихідної папки                                                      | img-src          |
-| dist        | string         | Назва папки з результатом                                                 | img-dist         |
-| format      | string         | Формат виходу: `webp`, `jpg`, `png`, `avif` або оригінальний (`original`) | webp             |
-| json        | string \| null | Ім’я JSON-файлу (або `null`, щоб пропустити)                              | null             |
-| width       | number \| null | Максимальна ширина зображення в пікселях                                  | null             |
-| height      | number \| null | Максимальна висота зображення в пікселях                                  | null             |
-| concurrency | number         | Максимальна кількість паралельних завдань обробки зображень               | 5                |
-| includeSize | boolean        | Додати розміри зображень (ширину та висоту) в JSON                        | false            |
+| Параметр              | Опис                                                                      | За замовчуванням |
+| --------------------- | ------------------------------------------------------------------------- | ---------------- |
+| `--src`, `-s`         | Назва вихідної папки                                                      | img-src          |
+| `--dist`, `-d`        | Назва папки з результатом                                                 | img-dist         |
+| `--format`, `-f`      | Формат виходу: `webp`, `jpg`, `png`, `avif` або оригінальний (`original`) | webp             |
+| `--json`, `-j`        | Ім’я JSON-файлу (або `--no-json`, щоб пропустити)                         | null             |
+| `--width`, `-W`       | Максимальна ширина зображення в пікселях                                  | null             |
+| `--height`, `-H`      | Максимальна висота зображення в пікселях                                  | null             |
+| `--concurrency`, `-c` | Максимальна кількість паралельних завдань обробки зображень               | 5                |
+| `--include-size`      | Додати розміри зображень (ширину та висоту) в JSON                        | false            |
+| `--manifest-only`     | Лише згенерувати JSON-маніфест, без конвертації зображень                 | false            |
+| `--interactive`, `-i` | Примусовий інтерактивний режим, навіть якщо передано аргументи            | false            |
 
 ## ✨ Приклади
 
 ```shell
-npx image-manifest json=static-images format=original
+# Конвертувати всі зображення в webp (за замовчуванням) і створити маніфест
+npx image-manifest --json static-images --format original
+
+# Змінити розмір до максимальної висоти 2000px, інша вихідна папка
+npx image-manifest --src sources --height 2000
+
+# Тільки створити JSON-маніфест з наявних зображень (без обробки)
+npx image-manifest --manifest-only --json gallery --src myimages
+
+# Запустити інтерактивний режим (запитує всі параметри)
+npx image-manifest --interactive
 ```
 
-```shell
-npx image-manifest src=sources height=2000
+## ⚙️ Файл конфігурації
+
+Ви можете зберігати налаштування у файлі конфігурації, замість того щоб передавати їх у командному рядку. Допустимі файли (пошук у поточній директорії та вище):
+
+- `.image-manifestrc.json`
+- `.image-manifestrc.yaml`
+- `.image-manifestrc.yml`
+- `.image-manifestrc.js`
+- `image-manifest.config.js`
+- властивість `"image-manifest"` у `package.json`
+
+Приклад `.image-manifestrc.json`:
+
+```json
+{
+  "src": "my-images",
+  "format": "webp",
+  "json": "gallery",
+  "width": 1200,
+  "includeSize": true
+}
 ```
 
-Запустіть без аргументів (інтерактивний режим)
+Коли ви запускаєте `npx image-manifest` без аргументів, автоматично використовується файл конфігурації, якщо він існує. Інакше запускається інтерактивний режим.
 
-```shell
-npx image-manifest
+## 📦 Програмний API
+
+Ви також можете використовувати `image-manifest` як бібліотеку у власних скриптах.
+
+```ts
+import { run } from 'image-manifest';
+
+await run({
+  src: 'photos',
+  dist: 'output',
+  format: 'webp',
+  json: 'manifest',
+  width: 800,
+  height: null,
+  concurrency: 4,
+  includeSize: true,
+  // manifestOnly: true  // розкоментуйте, щоб пропустити конвертацію
+});
+```
+
+Користувачі TypeScript можуть імпортувати типи маніфесту:
+
+```ts
+import type { ImageManifest, ImageFile } from 'image-manifest';
 ```

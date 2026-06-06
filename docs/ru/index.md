@@ -10,12 +10,6 @@ hero:
     - theme: brand
       text: Документация
       link: /ru/docs
-    - theme: alt
-      text: GitHub
-      link: https://github.com/vdistortion/image-manifest
-    - theme: alt
-      text: NPM
-      link: https://www.npmjs.com/package/image-manifest
 
 features:
   - title: Преобразование форматов изображений
@@ -35,4 +29,4 @@ npx image-manifest@latest
 ## 🌍 Переводы
 
 Документация доступна на нескольких языках, но её всегда можно улучшить.
-Если вы заметили ошибки или хотите добавить новый язык, ваши вклад очень приветствуется!
+Если вы заметили ошибки или хотите добавить новый язык, ваш вклад очень приветствуется!

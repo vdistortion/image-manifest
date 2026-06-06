@@ -15,11 +15,10 @@ export default defineConfig({
       lang: 'de',
       link: '/de/',
       themeConfig: {
-        nav: [
-          { text: 'Startseite', link: '/de/' },
-          { text: 'Dokumentation', link: '/de/docs' },
-        ],
-
+        outline: {
+          label: 'Auf dieser Seite',
+        },
+        nav: [{ text: 'Dokumentation', link: '/de/docs' }],
         sidebar: [
           {
             text: 'Dokumentation',
@@ -33,11 +32,10 @@ export default defineConfig({
       lang: 'ua',
       link: '/ua/',
       themeConfig: {
-        nav: [
-          { text: 'Головна', link: '/ua/' },
-          { text: 'Документація', link: '/ua/docs' },
-        ],
-
+        outline: {
+          label: 'На цій сторінці',
+        },
+        nav: [{ text: 'Документація', link: '/ua/docs' }],
         sidebar: [
           {
             text: 'Документація',
@@ -51,11 +49,10 @@ export default defineConfig({
       lang: 'ru',
       link: '/ru/',
       themeConfig: {
-        nav: [
-          { text: 'Главная', link: '/ru/' },
-          { text: 'Документация', link: '/ru/docs' },
-        ],
-
+        outline: {
+          label: 'На этой странице',
+        },
+        nav: [{ text: 'Документация', link: '/ru/docs' }],
         sidebar: [
           {
             text: 'Документация',
@@ -66,18 +63,13 @@ export default defineConfig({
     },
   },
   themeConfig: {
-    nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Docs', link: '/docs' },
-    ],
-
+    nav: [{ text: 'Docs', link: '/docs' }],
     sidebar: [
       {
         text: 'Docs',
         items: [{ text: 'image-manifest', link: '/docs' }],
       },
     ],
-
     socialLinks: [
       { icon: 'github', link: 'https://github.com/vdistortion/image-manifest' },
       { icon: 'npm', link: 'https://www.npmjs.com/package/image-manifest' },

@@ -1,3 +1,11 @@
+.VPHero .text {
+  font-size: 2rem;
+}
+
+.VPHero .tagline {
+  line-height: 1;
+}
+
 .VPHero .image-container img {
   max-width: 100%;
 }

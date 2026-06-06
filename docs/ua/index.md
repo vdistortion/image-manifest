@@ -10,12 +10,6 @@ hero:
     - theme: brand
       text: Документація
       link: /docs
-    - theme: alt
-      text: GitHub
-      link: https://github.com/vdistortion/image-manifest
-    - theme: alt
-      text: NPM
-      link: https://www.npmjs.com/package/image-manifest
 
 features:
   - title: Конвертація форматів зображень
