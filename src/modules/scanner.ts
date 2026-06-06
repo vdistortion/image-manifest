@@ -1,10 +1,9 @@
-import { relative, dirname, resolve, sep } from 'node:path';
+import { relative, dirname, resolve, sep, join } from 'node:path';
 import { readdir, stat } from 'node:fs/promises';
-import isImage from 'is-image';
 import pLimit from 'p-limit';
 import { SingleBar, Presets } from 'cli-progress';
-import { getPath } from './get-path.js';
 import { imageProcessing } from './image-processing.js';
+import { isImage } from './is-image.js';
 import type { FormatType, ImageType, MaxSizeType } from '../../types/index.ts';
 
 export const scanner = (
@@ -26,7 +25,7 @@ export const scanner = (
 
     const promises = files.map((file) =>
       limit(() => {
-        const newPath = getPath(initPath, file);
+        const newPath = join(initPath, file);
 
         return stat(newPath).then((stats) => {
           if (stats.isDirectory()) {

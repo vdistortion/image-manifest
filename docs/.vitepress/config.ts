@@ -1,6 +1,5 @@
 import { defineConfig } from 'vitepress';
 
-// https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: 'to-static-images',
   description: 'Image conversion for static websites',
@@ -67,7 +66,6 @@ export default defineConfig({
     },
   },
   themeConfig: {
-    // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Docs', link: '/docs' },

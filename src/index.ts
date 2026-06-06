@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 import { existsSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { join, resolve } from 'node:path';
 import { confirm, input, number, rawlist } from '@inquirer/prompts';
 import { toJson } from './modules/to-json.js';
-import { getPath } from './modules/get-path.js';
 import { scanner } from './modules/scanner.js';
 import { recreateDist } from './modules/recreate-dist.js';
 import type { OptionsType, FormatType } from '../types/index.ts';
@@ -58,7 +57,7 @@ const prompt = async () => {
   const json = isJson
     ? await input({
         message: 'JSON file name',
-        default: 'structure',
+        default: 'manifest',
       })
     : null;
 
@@ -105,7 +104,7 @@ if (args.length) {
 
     if (isValidValue && isValidParam) {
       if (param === 'includeSize') {
-        params[param] = value !== 'false';
+        params[param] = value === 'true';
       } else if (['width', 'height'].includes(param)) {
         if (Number(value) >= 100) params[param] = Number(value);
       } else if (param === 'concurrency') {
@@ -170,7 +169,7 @@ async function start() {
     );
 
     if (settings.json) {
-      const nameJson = getPath(absDist, `${settings.json}.json`);
+      const nameJson = join(absDist, `${settings.json}.json`);
       await toJson(nameJson, absDist, settings.includeSize);
       console.info(`File ./${nameJson} generated!`);
     }

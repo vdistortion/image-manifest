@@ -1,8 +1,9 @@
 import fs from 'node:fs/promises';
-import { parse, resolve } from 'node:path';
+import { join, parse, resolve } from 'node:path';
 import sharp, { Metadata, Sharp } from 'sharp';
-import { getPath } from './get-path.js';
 import type { FormatType, ImageType, MaxSizeType } from '../../types/index.ts';
+
+sharp.cache(false);
 
 function getName(fullName: string, format: string) {
   if (format === 'original') return fullName;
@@ -10,16 +11,15 @@ function getName(fullName: string, format: string) {
   return `${name}.${format}`;
 }
 
-export const imageProcessing = (
+export const imageProcessing = async (
   image: ImageType,
   maxWidth: MaxSizeType,
   maxHeight: MaxSizeType,
   format: FormatType,
 ) => {
-  const fullPath = getPath(resolve(image.dist), getName(image.name, format));
+  const fullPath = join(resolve(image.dist), getName(image.name, format));
 
-  return fs.mkdir(image.dist, { recursive: true }).then(() => {
-    sharp.cache(false);
+  return fs.mkdir(image.dist, { recursive: true }).then(async () => {
     const input: Sharp = sharp(image.path, {
       animated: true,
       limitInputPixels: false,

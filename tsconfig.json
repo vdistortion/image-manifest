@@ -20,8 +20,7 @@
 
     /* Directory */
     "outDir": "dist",
-    "rootDir": "./src",
-    "baseUrl": "./src"
+    "rootDir": "./src"
   },
   "include": ["src/**/*.ts", "types/**/*.ts"]
 }

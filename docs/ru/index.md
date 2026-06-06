@@ -1,12 +1,11 @@
 ---
-# https://vitepress.dev/reference/default-theme-home-page
 layout: home
 
 hero:
   name: 'to-static-images'
   text: 'Преобразование изображений'
   tagline: для статических сайтов
-  image: ../logo.jpg
+  image: /logo.webp
   actions:
     - theme: brand
       text: Документация
@@ -16,7 +15,7 @@ hero:
       link: https://github.com/vdistortion/to-static-images
     - theme: alt
       text: NPM
-      link: https://github.com/vdistortion/to-static-images
+      link: https://www.npmjs.com/package/to-static-images
 
 features:
   - title: Преобразование форматов изображений

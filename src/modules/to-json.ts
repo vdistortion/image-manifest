@@ -1,14 +1,11 @@
 import fs from 'node:fs';
-import path from 'node:path';
-import isImage from 'is-image';
+import { join, resolve } from 'node:path';
 import sharp from 'sharp';
-import { getStructure, traverseStructure, type File, type Folder } from 'directory-structure-json';
-import { getPath } from './get-path.js';
+import { getStructure, type File, type Folder } from 'directory-structure-json';
+import { isImage } from './is-image.js';
 
-const isImageExtended = (name: string) => isImage(name) || name.toLowerCase().endsWith('.avif');
-
-export const toJson = (jsonName: string, basePath: string, includeSize: boolean) =>
-  new Promise((resolve, reject) => {
+export const toJson = (jsonName: string, basePath: string, includeSize: boolean): Promise<void> =>
+  new Promise((resolvePromise, reject) => {
     getStructure(
       fs,
       basePath,
@@ -18,14 +15,12 @@ export const toJson = (jsonName: string, basePath: string, includeSize: boolean)
           return;
         }
 
-        const list: string[] = [];
-
         const enrichWithDimensions = async (items: any[], currentPath: string = basePath) => {
           for (const item of items) {
             if (item.type === 'folder' && item.children) {
-              await enrichWithDimensions(item.children, path.join(currentPath, item.name));
-            } else if (item.type === 'file' && isImageExtended(item.name)) {
-              const fullPath = path.resolve(currentPath, item.name);
+              await enrichWithDimensions(item.children, join(currentPath, item.name));
+            } else if (item.type === 'file' && isImage(item.name)) {
+              const fullPath = resolve(currentPath, item.name);
 
               if (includeSize) {
                 try {
@@ -36,7 +31,6 @@ export const toJson = (jsonName: string, basePath: string, includeSize: boolean)
                   console.warn(`Could not read size for ${item.name}. Path: ${fullPath}`);
                 }
               }
-              list.push(fullPath);
             }
           }
         };
@@ -50,7 +44,7 @@ export const toJson = (jsonName: string, basePath: string, includeSize: boolean)
           if (Array.isArray(value)) {
             return value.filter((item) => {
               const isFolder = item.type === 'folder';
-              const isImageFile = item.type === 'file' && isImageExtended(item.name);
+              const isImageFile = item.type === 'file' && isImage(item.name);
               return isFolder || isImageFile;
             });
           }
@@ -58,21 +52,9 @@ export const toJson = (jsonName: string, basePath: string, includeSize: boolean)
         };
         const json = JSON.stringify(structure, imageFilter, 2);
 
-        if (Array.isArray(structure)) {
-          traverseStructure(
-            structure,
-            '.',
-            () => {},
-            (file: File, path: string) => {
-              const fullPath = getPath(path, file.name);
-              list.push(fullPath);
-            },
-          );
-        }
-
         fs.writeFile(jsonName, json, (err) => {
           if (err) reject(err);
-          else resolve(list);
+          else resolvePromise();
         });
       },
     );
