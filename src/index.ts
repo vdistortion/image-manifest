@@ -5,7 +5,7 @@ import { confirm, input, number, rawlist } from '@inquirer/prompts';
 import { toJson } from './modules/to-json.js';
 import { scanner } from './modules/scanner.js';
 import { recreateDist } from './modules/recreate-dist.js';
-import type { OptionsType, FormatType } from '../types/index.ts';
+import type { OptionsType, FormatType } from './types.js';
 
 const defaultFormat = 'webp';
 const formats: FormatType[] = ['original', defaultFormat, 'jpg', 'png', 'avif'];
@@ -98,25 +98,28 @@ const params: Partial<OptionsType> = {};
 
 if (args.length) {
   args.forEach((arg: string) => {
-    const [param, value]: any[] = arg.split('=');
-    const isValidValue = typeof value === 'string' && Boolean(value.length);
-    const isValidParam = Object.keys(options).includes(param);
+    const [param, value] = arg.split('=');
+    const isValidValue = Boolean(value?.length);
+    const isValidParam = param ? Object.keys(options).includes(param) : false;
 
     if (isValidValue && isValidParam) {
-      if (param === 'includeSize') {
-        params[param] = value === 'true';
-      } else if (['width', 'height'].includes(param)) {
-        if (Number(value) >= 100) params[param] = Number(value);
-      } else if (param === 'concurrency') {
-        if (Number(value) >= 0) params[param] = Number(value);
-      } else if (param === 'format') {
-        const format = value as FormatType;
-        if (formats.includes(format)) params[param] = value;
+      const key = param as keyof OptionsType;
+
+      if (key === 'includeSize') {
+        params[key] = value === 'true';
+      } else if (key === 'width' || key === 'height') {
+        const num = Number(value);
+        if (num >= 100) params[key] = num;
+      } else if (key === 'concurrency') {
+        const num = Number(value);
+        if (num >= 0) params[key] = num;
+      } else if (key === 'format') {
+        if (formats.includes(value as FormatType)) params[key] = value as FormatType;
       } else {
-        params[param] = value;
+        params[key] = value;
       }
     }
-  }, {});
+  });
 
   start().then(console.info);
 } else {

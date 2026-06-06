@@ -4,7 +4,7 @@ import pLimit from 'p-limit';
 import { SingleBar, Presets } from 'cli-progress';
 import { imageProcessing } from './image-processing.js';
 import { isImage } from './is-image.js';
-import type { FormatType, ImageType, MaxSizeType } from '../../types/index.ts';
+import type { FormatType, ImageType, MaxSizeType } from '../types.js';
 
 export const scanner = (
   initPath: string,
@@ -14,7 +14,7 @@ export const scanner = (
   maxHeight: MaxSizeType,
   format: FormatType,
   concurrency: number,
-) => {
+): Promise<void> => {
   const absDist = resolve(dirDist);
 
   return readdir(initPath).then((files) => {
@@ -24,10 +24,10 @@ export const scanner = (
     bar.start(files.length, 0);
 
     const promises = files.map((file) =>
-      limit(() => {
+      limit(async () => {
         const newPath = join(initPath, file);
 
-        return stat(newPath).then((stats) => {
+        return stat(newPath).then(async (stats) => {
           if (stats.isDirectory()) {
             const absNewPath = resolve(newPath);
             if (absNewPath === absDist || absNewPath.startsWith(absDist + sep))

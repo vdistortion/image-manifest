@@ -2,25 +2,25 @@
   "compilerOptions": {
     /* Base Options: */
     "skipLibCheck": true,
-    "target": "esnext",
+    "target": "ESNext",
     "lib": ["ESNext"],
 
     /* Module system: */
     "esModuleInterop": true,
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
-
-    /* Import options: */
-    "resolveJsonModule": true,
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
 
     /* Strictness: */
     "strict": true,
     "noUncheckedIndexedAccess": true,
-    "noImplicitAny": false,
+
+    /* Emit */
+    "declaration": true,
+    "declarationDir": "./dist",
 
     /* Directory */
     "outDir": "dist",
     "rootDir": "./src"
   },
-  "include": ["src/**/*.ts", "types/**/*.ts"]
+  "include": ["src/**/*.ts"]
 }

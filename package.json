@@ -69,7 +69,6 @@
     "typescript": "^6.0.3",
     "vitepress": "^1.6.4"
   },
-  "types": "./types/index.d.ts",
   "files": [
     "dist",
     "types"

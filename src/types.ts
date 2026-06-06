@@ -1,8 +1,8 @@
-export declare type MaxSizeType = number | null;
+export type MaxSizeType = number | null;
 
-export declare type FormatType = 'original' | 'webp' | 'jpg' | 'png' | 'avif';
+export type FormatType = 'original' | 'webp' | 'jpg' | 'png' | 'avif';
 
-export declare type OptionsType = {
+export type OptionsType = {
   src: string;
   dist: string;
   width: MaxSizeType;
@@ -13,7 +13,7 @@ export declare type OptionsType = {
   includeSize: boolean;
 };
 
-export declare type ImageType = {
+export type ImageType = {
   name: string;
   path: string;
   dist: string;

@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 import { join, parse, resolve } from 'node:path';
 import sharp, { Metadata, Sharp } from 'sharp';
-import type { FormatType, ImageType, MaxSizeType } from '../../types/index.ts';
+import type { FormatType, ImageType, MaxSizeType } from '../types.js';
 
 sharp.cache(false);
 
