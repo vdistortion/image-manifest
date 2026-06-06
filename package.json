@@ -11,8 +11,8 @@
     "url": "git@github.com:vdistortion/image-manifest.git"
   },
   "scripts": {
-    "dev": "tsx src/index.ts",
-    "start": "node ./dist/index.js",
+    "dev": "tsx src/cli.ts",
+    "start": "node ./dist/cli.js",
     "build": "rm -rf ./dist && tsc",
     "public:lib": "npm run build && npm publish",
     "format": "prettier . --write",

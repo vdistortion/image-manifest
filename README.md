@@ -5,7 +5,7 @@
 
 A CLI tool to batch-convert and resize images (webp, avif, jpg, png) and generate a JSON manifest — for static sites and galleries.
 
-![image-manifest](docs/public/logo.webp)
+[![image-manifest](docs/public/logo.webp)](https://image-manifest.zvalentin.ru)
 
 ## Quick Start
 

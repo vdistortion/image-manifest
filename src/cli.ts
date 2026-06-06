@@ -28,9 +28,23 @@ async function getInteractiveOptions(): Promise<OptionsType> {
     choices: formats.map((f) => ({ name: f, value: f })),
   });
 
-  const width = (await number({ message: 'Maximum width', default: 0 })) ?? 0;
-  const height = (await number({ message: 'Maximum height', default: 0 })) ?? 0;
-  const concurrency = (await number({ message: 'Max concurrent tasks', default: 5 })) ?? 5;
+  const width =
+    (await number({
+      message: 'Maximum width',
+      default: 0,
+    })) || null;
+
+  const height =
+    (await number({
+      message: 'Maximum height',
+      default: 0,
+    })) || null;
+
+  const concurrency =
+    (await number({
+      message: 'Max concurrent tasks',
+      default: 5,
+    })) || 5;
 
   const isJson = await confirm({
     message: 'Should I generate a JSON file?',
