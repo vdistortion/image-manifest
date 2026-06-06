@@ -1,3 +1,16 @@
+import type { File, Folder } from 'directory-structure-json';
+
+export interface ImageFile extends File {
+  width?: number;
+  height?: number;
+}
+
+export interface ImageFolder extends Folder {
+  children: (ImageFile | ImageFolder)[];
+}
+
+export type ImageManifest = ImageFolder | (ImageFile | ImageFolder)[];
+
 export type MaxSizeType = number | null;
 
 export type FormatType = 'original' | 'webp' | 'jpg' | 'png' | 'avif';
