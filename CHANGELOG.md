@@ -4,6 +4,39 @@ All notable changes to this project will be documented in this file.
 
 The format is inspired by [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.0.0] - 2026-06-07
+
+### Changed
+
+- **Package renamed** from `to-static-images` to `image-manifest`.
+  Previous packages `to-webp-json` and `to-static-images` are deprecated and redirect here.
+- CLI completely rewritten using Commander. Old `key=value` syntax removed; use standard options like `--src`, `--format`, etc.
+- Interactive mode: now triggered automatically only when no arguments and no config file found, or with `--interactive`.
+- Configuration file support via cosmiconfig (`.image-manifestrc.json`, `image-manifest.config.js`, `package.json` property).
+- Progress bar fixed: single progress bar now correctly tracks total image count across directories.
+- Strict TypeScript enabled (`strict: true`); removed `noImplicitAny: false`.
+- License changed from GPL-3.0 to Apache-2.0.
+- Types moved to `src/types.ts` and exported; manifest types `ImageFile`, `ImageFolder`, `ImageManifest` added.
+
+### Added
+
+- Programmatic API: `import { run } from 'image-manifest'` to use as a library.
+- `--manifest-only` option to generate JSON manifest without converting images.
+- Unit tests with Vitest.
+- GitHub Actions CI for tests on Node.js 22, 24 and 26.
+- Automated deployment of documentation to GitHub Pages using native Actions.
+
+### Fixed
+
+- Multiple progress bars cluttering output.
+- Potential `undefined` values in interactive mode for width/height/concurrency.
+- Various path resolution issues.
+
+### Removed
+
+- Support for old `key=value` argument syntax.
+- `to-webp-json` and `to-static-images` names (deprecated).
+
 ## [1.1.1] - 2026-02-21
 
 ### Fixed
