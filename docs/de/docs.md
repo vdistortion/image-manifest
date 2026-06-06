@@ -1,6 +1,6 @@
 # to-static-images
 
-![to-static-images](/bg.webp)
+![to-static-images](/logo.webp)
 
 Ein CLI-Tool, das Bilder in das gewünschte Format konvertiert, eine Dateistruktur im JSON-Format generiert und bei Bedarf die Größe ändert. Nützlich für statische Websites, Galerien und Automatisierung.
 
