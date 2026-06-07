@@ -10,6 +10,7 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "types": ["node"],
+    "resolveJsonModule": true,
 
     /* Strictness: */
     "strict": true,

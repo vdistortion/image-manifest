@@ -6,10 +6,12 @@ export interface ImageFile extends File {
 }
 
 export interface ImageFolder extends Folder {
-  children: (ImageFile | ImageFolder)[];
+  children: ImageItem[];
 }
 
-export type ImageManifest = ImageFolder | (ImageFile | ImageFolder)[];
+export type ImageItem = ImageFile | ImageFolder;
+
+export type ImageManifest = ImageFolder | ImageItem[];
 
 export type MaxSizeType = number | null;
 
@@ -24,6 +26,18 @@ export type OptionsType = {
   json: string | null;
   concurrency: number;
   includeSize: boolean;
+  manifestOnly?: boolean;
+};
+
+export type CliOptions = {
+  src?: string;
+  dist?: string;
+  format?: FormatType;
+  width?: number;
+  height?: number;
+  json?: string | false;
+  concurrency?: number;
+  includeSize?: boolean;
   manifestOnly?: boolean;
 };
 

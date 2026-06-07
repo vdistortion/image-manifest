@@ -1,15 +1,16 @@
 #!/usr/bin/env node
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync } from 'node:fs';
 import { confirm, input, number, rawlist } from '@inquirer/prompts';
 import { cosmiconfig } from 'cosmiconfig';
 import { Command } from 'commander';
 import { run } from './index.js';
-import type { OptionsType, FormatType } from './types.js';
+import type { CliOptions, OptionsType, FormatType } from './types.js';
 import { SourceNotFoundError, DistInsideSourceError, SourceInsideDistError } from './errors.js';
+import pkg from '../package.json' with { type: 'json' };
 
 const defaultFormat = 'webp';
 const formats: FormatType[] = ['original', defaultFormat, 'jpg', 'png', 'avif'];
-const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
+
 const explorer = cosmiconfig('image-manifest');
 
 async function getInteractiveOptions(): Promise<OptionsType> {
@@ -118,7 +119,8 @@ async function main() {
     if (!forceInteractive) {
       const cfg = await explorer.search();
       if (cfg) {
-        options = { ...defaultOptions, ...cfg.config };
+        const config = cfg.config as Partial<OptionsType>;
+        options = { ...defaultOptions, ...config };
         console.log('Using configuration from', cfg.filepath);
         const result = await run(options);
         console.log(result.message);
@@ -132,17 +134,17 @@ async function main() {
     return;
   }
 
-  program.action(async (opts) => {
+  program.action(async (opts: CliOptions) => {
     const options: OptionsType = {
-      src: opts.src || defaultOptions.src,
-      dist: opts.dist || defaultOptions.dist,
-      format: (opts.format as FormatType) || defaultOptions.format,
-      width: opts.width || null,
-      height: opts.height || null,
-      json: opts.json === false ? null : opts.json || null,
-      concurrency: opts.concurrency || defaultOptions.concurrency,
-      includeSize: opts.includeSize || false,
-      manifestOnly: opts.manifestOnly || false,
+      src: opts.src ?? defaultOptions.src,
+      dist: opts.dist ?? defaultOptions.dist,
+      format: opts.format ?? defaultOptions.format,
+      width: opts.width ?? null,
+      height: opts.height ?? null,
+      json: opts.json === false ? null : (opts.json ?? null),
+      concurrency: opts.concurrency ?? defaultOptions.concurrency,
+      includeSize: opts.includeSize ?? false,
+      manifestOnly: opts.manifestOnly ?? false,
     };
 
     try {
