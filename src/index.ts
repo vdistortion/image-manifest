@@ -4,6 +4,7 @@ import { toJson } from './modules/to-json.js';
 import { scanner } from './modules/scanner.js';
 import { recreateDist } from './modules/recreate-dist.js';
 import type { OptionsType } from './types.js';
+export type { OptionsType } from './types.js';
 
 export async function run(options: OptionsType): Promise<string> {
   const absSrc = resolve(options.src);
