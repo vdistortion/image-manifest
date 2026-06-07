@@ -1,8 +1,11 @@
 import pLimit from 'p-limit';
 import { SingleBar, Presets } from 'cli-progress';
+import debugLib from 'debug';
 import { imageProcessing } from './image-processing.js';
 import { collectImages } from './collect-images.js';
 import type { FormatType, MaxSizeType } from '../types.js';
+
+const debug = debugLib('image-manifest:scanner');
 
 export const scanner = async (
   srcDir: string,
@@ -11,12 +14,12 @@ export const scanner = async (
   maxHeight: MaxSizeType,
   format: FormatType,
   concurrency: number,
-): Promise<void> => {
+): Promise<number> => {
   // 1. Собрать все файлы-изображения
   const images = await collectImages(srcDir, srcDir, distDir);
   if (images.length === 0) {
-    console.log('No images found.');
-    return;
+    debug('No images found.');
+    return 0;
   }
 
   // 2. Создать один прогресс-бар
@@ -26,14 +29,18 @@ export const scanner = async (
   const limit = pLimit(concurrency);
   let processed = 0;
 
-  const tasks = images.map((image) =>
-    limit(async () => {
-      await imageProcessing(image, maxWidth, maxHeight, format);
-      processed++;
-      bar.update(processed);
-    }),
-  );
+  try {
+    const tasks = images.map((image) =>
+      limit(async () => {
+        await imageProcessing(image, maxWidth, maxHeight, format);
+        processed++;
+        bar.update(processed);
+      }),
+    );
 
-  await Promise.all(tasks);
-  bar.stop();
+    await Promise.all(tasks);
+    return processed;
+  } finally {
+    bar.stop();
+  }
 };

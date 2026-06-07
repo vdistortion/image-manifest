@@ -5,6 +5,7 @@ import { cosmiconfig } from 'cosmiconfig';
 import { Command } from 'commander';
 import { run } from './index.js';
 import type { OptionsType, FormatType } from './types.js';
+import { SourceNotFoundError, DistInsideSourceError, SourceInsideDistError } from './errors.js';
 
 const defaultFormat = 'webp';
 const formats: FormatType[] = ['original', defaultFormat, 'jpg', 'png', 'avif'];
@@ -120,14 +121,14 @@ async function main() {
         options = { ...defaultOptions, ...cfg.config };
         console.log('Using configuration from', cfg.filepath);
         const result = await run(options);
-        console.log(result);
+        console.log(result.message);
         return;
       }
     }
 
     options = await getInteractiveOptions();
     const result = await run(options);
-    console.log(result);
+    console.log(result.message);
     return;
   }
 
@@ -146,9 +147,17 @@ async function main() {
 
     try {
       const result = await run(options);
-      console.log(result);
+      console.log(result.message);
     } catch (err) {
-      console.error(err instanceof Error ? err.message : err);
+      if (
+        err instanceof SourceNotFoundError ||
+        err instanceof DistInsideSourceError ||
+        err instanceof SourceInsideDistError
+      ) {
+        console.error(err.message);
+      } else {
+        console.error(err instanceof Error ? err.message : err);
+      }
       process.exit(1);
     }
   });

@@ -32,8 +32,8 @@
     "url": "git@github.com:vdistortion/image-manifest.git"
   },
   "scripts": {
-    "dev": "tsx src/cli.ts",
-    "start": "node ./dist/cli.js",
+    "dev": "DEBUG=image-manifest:* tsx src/cli.ts",
+    "start": "DEBUG=image-manifest:* node ./dist/cli.js",
     "build": "rm -rf ./dist && tsc",
     "public:lib": "npm run build && npm publish",
     "format": "prettier . --write",
@@ -80,12 +80,14 @@
     "cli-progress": "^3.12.0",
     "commander": "^15.0.0",
     "cosmiconfig": "^9.0.1",
+    "debug": "^4.4.3",
     "directory-structure-json": "^1.0.0",
     "p-limit": "^7.3.0",
     "sharp": "^0.34.5"
   },
   "devDependencies": {
     "@types/cli-progress": "^3.11.6",
+    "@types/debug": "^4.1.13",
     "@types/directory-structure-json": "^1.0.2",
     "@types/node": "^25.9.2",
     "prettier": "3.8.3",
