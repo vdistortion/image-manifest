@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { confirm, input, number, rawlist } from '@inquirer/prompts';
 import { cosmiconfig } from 'cosmiconfig';
 import { Command } from 'commander';
@@ -8,7 +8,7 @@ import type { OptionsType, FormatType } from './types.js';
 
 const defaultFormat = 'webp';
 const formats: FormatType[] = ['original', defaultFormat, 'jpg', 'png', 'avif'];
-
+const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
 const explorer = cosmiconfig('image-manifest');
 
 async function getInteractiveOptions(): Promise<OptionsType> {
@@ -84,6 +84,7 @@ const program = new Command();
 program
   .name('image-manifest')
   .description('Convert images and generate JSON manifest')
+  .version(pkg.version, '-v, --version')
   .option('-s, --src <path>', 'source directory', defaultOptions.src)
   .option('-d, --dist <path>', 'output directory', defaultOptions.dist)
   .option(
