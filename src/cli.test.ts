@@ -124,16 +124,19 @@ describe('CLI', () => {
 
     it('interactive mode asks questions and runs', async () => {
       const { input, number, rawlist, confirm } = await import('@inquirer/prompts');
+      (confirm as any)
+        .mockResolvedValueOnce(false) // manifestOnly
+        .mockResolvedValueOnce(true) // isJson
+        .mockResolvedValueOnce(false); // includeSize
+      (rawlist as any).mockResolvedValueOnce('png');
+      (number as any)
+        .mockResolvedValueOnce(100) // width
+        .mockResolvedValueOnce(200) // height
+        .mockResolvedValueOnce(3); // concurrency
       (input as any)
         .mockResolvedValueOnce('custom-src')
         .mockResolvedValueOnce('custom-dist')
-        .mockResolvedValueOnce('manifest');
-      (number as any)
-        .mockResolvedValueOnce(100)
-        .mockResolvedValueOnce(200)
-        .mockResolvedValueOnce(3);
-      (rawlist as any).mockResolvedValueOnce('png');
-      (confirm as any).mockResolvedValueOnce(true).mockResolvedValueOnce(false);
+        .mockResolvedValueOnce('manifest'); // json name
       setArgv([]);
       await main();
       expect(run).toHaveBeenCalledWith(
@@ -146,6 +149,7 @@ describe('CLI', () => {
           concurrency: 3,
           json: 'manifest',
           includeSize: false,
+          manifestOnly: false,
         }),
       );
     });

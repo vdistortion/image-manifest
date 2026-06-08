@@ -26,28 +26,40 @@ async function getInteractiveOptions(): Promise<OptionsType> {
     default: 'img-dist',
   });
 
-  const format = await rawlist({
-    message: 'Image format',
-    choices: formats.map((f) => ({ name: f, value: f })),
+  const manifestOnly = await confirm({
+    message: 'Only generate JSON manifest (skip image conversion)?',
+    default: false,
   });
 
-  const width =
-    (await number({
-      message: 'Maximum width',
-      default: 0,
-    })) || null;
+  let format: FormatType = 'webp';
+  let width: number | null = null;
+  let height: number | null = null;
+  let concurrency = 5;
 
-  const height =
-    (await number({
-      message: 'Maximum height',
-      default: 0,
-    })) || null;
+  if (!manifestOnly) {
+    format = await rawlist({
+      message: 'Image format',
+      choices: formats.map((f) => ({ name: f, value: f })),
+    });
 
-  const concurrency =
-    (await number({
-      message: 'Max concurrent tasks',
-      default: 5,
-    })) || 5;
+    width =
+      (await number({
+        message: 'Maximum width',
+        default: 0,
+      })) || null;
+
+    height =
+      (await number({
+        message: 'Maximum height',
+        default: 0,
+      })) || null;
+
+    concurrency =
+      (await number({
+        message: 'Max concurrent tasks',
+        default: 5,
+      })) || 5;
+  }
 
   const isJson = await confirm({
     message: 'Should I generate a JSON file?',
@@ -68,7 +80,7 @@ async function getInteractiveOptions(): Promise<OptionsType> {
       })
     : false;
 
-  return { src, dist, format, width, height, concurrency, json, includeSize };
+  return { src, dist, format, width, height, concurrency, json, includeSize, manifestOnly };
 }
 
 const defaultOptions: OptionsType = {
