@@ -108,7 +108,7 @@ program
   .option('--manifest-only', 'only generate JSON, skip image conversion')
   .option('-i, --interactive', 'force interactive mode');
 
-async function main() {
+export async function main() {
   const args = process.argv.slice(2);
   const hasArgs = args.length > 0;
   const forceInteractive = args.includes('--interactive') || args.includes('-i');
@@ -164,7 +164,7 @@ async function main() {
     }
   });
 
-  program.parse();
+  await program.parseAsync(process.argv);
 }
 
 main().catch((err) => {

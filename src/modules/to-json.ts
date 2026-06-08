@@ -1,5 +1,5 @@
-import { writeFile } from 'node:fs/promises';
-import { join, resolve } from 'node:path';
+import { writeFile, mkdir } from 'node:fs/promises';
+import { join, resolve, dirname } from 'node:path';
 import sharp from 'sharp';
 import fs from 'node:fs';
 import debugLib from 'debug';
@@ -21,13 +21,9 @@ export const toJson = async (
     getStructure(fs, basePath, (error: Error | null, structure: ImageManifest | undefined) => {
       if (error) reject(error);
       else {
-        if (!structure) {
-          resolvePromise([]);
-        } else if (Array.isArray(structure)) {
-          resolvePromise(structure);
-        } else {
-          resolvePromise([structure]);
-        }
+        if (!structure) resolvePromise([]);
+        else if (Array.isArray(structure)) resolvePromise(structure);
+        else resolvePromise([structure]);
       }
     });
   });
@@ -66,6 +62,8 @@ export const toJson = async (
     return value;
   };
   const json = JSON.stringify(structure, imageFilter, 2);
+  // Создаём директорию перед записью
+  await mkdir(dirname(jsonName), { recursive: true });
   await writeFile(jsonName, json, 'utf8');
   debug(`JSON written to ${jsonName}`);
 };
