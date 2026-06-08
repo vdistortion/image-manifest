@@ -28,6 +28,7 @@ export type OptionsType = {
   includeSize: boolean;
   manifestOnly?: boolean;
   progress?: boolean;
+  continueOnError?: boolean;
 };
 
 export type CliOptions = {
@@ -41,6 +42,7 @@ export type CliOptions = {
   includeSize?: boolean;
   manifestOnly?: boolean;
   progress?: boolean;
+  continueOnError?: boolean;
 };
 
 export type ImageType = {

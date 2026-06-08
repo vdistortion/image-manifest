@@ -120,6 +120,7 @@ function createProgram() {
     .option('--include-size', 'include width/height in JSON')
     .option('--manifest-only', 'only generate JSON, skip image conversion')
     .option('--no-progress', 'disable progress bar', false)
+    .option('--continue-on-error', 'continue processing images even if one fails')
     .option('-i, --interactive', 'force interactive mode');
   return program;
 }
@@ -164,6 +165,7 @@ export async function main() {
       includeSize: opts.includeSize ?? false,
       manifestOnly: opts.manifestOnly ?? false,
       progress: opts.progress ?? true,
+      continueOnError: opts.continueOnError ?? false,
     };
 
     try {

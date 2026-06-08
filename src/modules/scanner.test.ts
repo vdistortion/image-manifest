@@ -78,4 +78,20 @@ describe('scanner', () => {
     expect(mockBar.start).toHaveBeenCalledWith(1, 0);
     expect(mockBar.stop).toHaveBeenCalled();
   });
+
+  it('continueOnError collects errors but does not stop', async () => {
+    const images = [
+      { name: 'a.png', path: '/src/a.png', dist: '/dist' },
+      { name: 'b.jpg', path: '/src/b.jpg', dist: '/dist' },
+    ];
+    (collectImages as any).mockResolvedValue(images);
+    (imageProcessing as any)
+      .mockRejectedValueOnce(new Error('fail1'))
+      .mockResolvedValueOnce(undefined);
+
+    const result = await scanner('/src', '/dist', null, null, 'webp', 1, true, true);
+    expect(result).toBe(2); // оба обработаны
+    expect(mockBar.update).toHaveBeenCalledTimes(2);
+    expect(mockBar.stop).toHaveBeenCalled();
+  });
 });

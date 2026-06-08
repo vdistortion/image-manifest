@@ -153,5 +153,11 @@ describe('CLI', () => {
         }),
       );
     });
+
+    it('--continue-on-error sets option', async () => {
+      setArgv(['--continue-on-error', '--src', 'img']);
+      await main();
+      expect(run).toHaveBeenCalledWith(expect.objectContaining({ continueOnError: true }));
+    });
   });
 });
