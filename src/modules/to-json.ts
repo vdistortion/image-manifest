@@ -1,13 +1,29 @@
-import { writeFile, mkdir } from 'node:fs/promises';
+import { writeFile, mkdir, readdir } from 'node:fs/promises';
 import { join, resolve, dirname } from 'node:path';
 import sharp from 'sharp';
-import fs from 'node:fs';
 import debugLib from 'debug';
-import { getStructure } from 'directory-structure-json';
 import { isImage } from './is-image.js';
 import type { ImageItem, ImageManifest } from '../types.js';
 
 const debug = debugLib('image-manifest:to-json');
+
+async function getStructureAsync(dir: string): Promise<ImageItem[]> {
+  const entries = await readdir(dir, { withFileTypes: true });
+  const result: ImageItem[] = [];
+
+  for (const entry of entries) {
+    if (entry.isDirectory()) {
+      result.push({
+        type: 'folder',
+        name: entry.name,
+        children: await getStructureAsync(join(dir, entry.name)),
+      });
+    } else if (isImage(entry.name)) {
+      result.push({ type: 'file', name: entry.name });
+    }
+  }
+  return result;
+}
 
 export const toJson = async (
   jsonName: string,
@@ -15,18 +31,7 @@ export const toJson = async (
   includeSize: boolean,
 ): Promise<void> => {
   debug(`Generating JSON for ${basePath}`);
-
-  // Промисификация getStructure
-  const structure = await new Promise<ImageItem[]>((resolvePromise, reject) => {
-    getStructure(fs, basePath, (error: Error | null, structure: ImageManifest | undefined) => {
-      if (error) reject(error);
-      else {
-        if (!structure) resolvePromise([]);
-        else if (Array.isArray(structure)) resolvePromise(structure);
-        else resolvePromise([structure]);
-      }
-    });
-  });
+  const structure = await getStructureAsync(basePath);
 
   // Размеры
   const enrichWithDimensions = async (items: ImageItem[], currentPath: string = basePath) => {

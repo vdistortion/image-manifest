@@ -1,11 +1,13 @@
-import type { File, Folder } from 'directory-structure-json';
-
-export interface ImageFile extends File {
+export interface ImageFile {
+  name: string;
+  type: 'file';
   width?: number;
   height?: number;
 }
 
-export interface ImageFolder extends Folder {
+export interface ImageFolder {
+  name: string;
+  type: 'folder';
   children: ImageItem[];
 }
 

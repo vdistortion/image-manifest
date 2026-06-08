@@ -5,17 +5,21 @@ import { toJson } from './to-json.js';
 vi.mock('node:fs/promises', () => ({
   writeFile: vi.fn(),
   mkdir: vi.fn(),
-}));
-
-vi.mock('node:fs', () => ({
-  default: {
-    readdir: vi.fn(),
-    stat: vi.fn(),
-  },
-}));
-
-vi.mock('directory-structure-json', () => ({
-  getStructure: vi.fn(),
+  readdir: vi.fn((dir: string) => {
+    // корень
+    if (dir === '/base') {
+      return [
+        { name: 'nested', isDirectory: () => true, isFile: () => false },
+        { name: 'img.png', isDirectory: () => false, isFile: () => true },
+        { name: 'doc.txt', isDirectory: () => false, isFile: () => true },
+      ];
+    }
+    // вложенная папка
+    if (dir === '/base/nested') {
+      return [{ name: 'deep.png', isDirectory: () => false, isFile: () => true }];
+    }
+    return [];
+  }),
 }));
 
 vi.mock('sharp', () => {
@@ -25,7 +29,7 @@ vi.mock('sharp', () => {
   return { default: sharp };
 });
 
-import { getStructure } from 'directory-structure-json';
+import { readdir } from 'node:fs/promises';
 import sharp from 'sharp';
 
 describe('toJson', () => {
@@ -34,22 +38,6 @@ describe('toJson', () => {
   });
 
   it('writes filtered JSON without sizes', async () => {
-    const mockStructure = [
-      {
-        type: 'folder',
-        name: 'nested',
-        children: [
-          { type: 'file', name: 'img.png' },
-          { type: 'file', name: 'doc.txt' },
-        ],
-      },
-    ];
-    (getStructure as any).mockImplementation(
-      (fs: any, dir: string, cb: (error: Error | null, structure: any) => void) => {
-        cb(null, mockStructure);
-      },
-    );
-
     const jsonName = '/tmp/manifest.json';
     await toJson(jsonName, '/base', false);
 
@@ -60,37 +48,28 @@ describe('toJson', () => {
       {
         type: 'folder',
         name: 'nested',
-        children: [{ type: 'file', name: 'img.png' }],
+        children: [{ type: 'file', name: 'deep.png' }],
       },
+      { type: 'file', name: 'img.png' },
     ]);
-    expect(writtenJson[0].children[0].width).toBeUndefined();
-    expect(writtenJson[0].children[0].height).toBeUndefined();
+    expect(writtenJson[1].width).toBeUndefined();
+    expect(writtenJson[1].height).toBeUndefined();
   });
 
   it('includes sizes when includeSize is true', async () => {
-    const mockStructure = [{ type: 'file', name: 'img.png' }];
-    (getStructure as any).mockImplementation(
-      (fs: any, dir: string, cb: (error: Error | null, structure: any) => void) => {
-        cb(null, mockStructure);
-      },
-    );
-
     const jsonName = '/tmp/manifest.json';
     await toJson(jsonName, '/base', true);
 
     const writtenJson = JSON.parse((writeFile as any).mock.calls[0][1]);
-    expect(writtenJson[0].width).toBe(100);
-    expect(writtenJson[0].height).toBe(200);
+    // первый файл (img.png) должен получить размеры
+    expect(writtenJson[1].width).toBe(100);
+    expect(writtenJson[1].height).toBe(200);
     expect(sharp).toHaveBeenCalled();
   });
 
   it('handles empty directory', async () => {
-    (getStructure as any).mockImplementation(
-      (fs: any, dir: string, cb: (error: Error | null, structure: any) => void) => {
-        cb(null, []);
-      },
-    );
-
+    // переопределяем readdir для пустого корня
+    (readdir as any).mockReturnValue([]);
     await toJson('/tmp/empty.json', '/base', false);
     expect(writeFile).toHaveBeenCalledWith('/tmp/empty.json', '[]', 'utf8');
   });
