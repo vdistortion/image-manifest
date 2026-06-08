@@ -37,6 +37,8 @@ npx image-manifest@latest
 | `--concurrency`, `-c` | Максимум одновременно обрабатываемых изображений                        | 5            |
 | `--include-size`      | Включить размеры изображений (ширину и высоту) в JSON                   | false        |
 | `--manifest-only`     | Только генерация JSON-манифеста, без конвертации изображений            | false        |
+| `--no-progress`       | Отключить индикатор выполнения                                          | false        |
+| `--continue-on-error` | Продолжать обработку, даже если некоторые изображения выдают ошибку     | false        |
 | `--interactive`, `-i` | Принудительный интерактивный режим, даже если переданы аргументы        | false        |
 
 ## ✨ Примеры
@@ -51,6 +53,9 @@ npx image-manifest --src sources --height 2000
 # Только создать JSON-манифест из существующих изображений (без обработки)
 npx image-manifest --manifest-only --json gallery --src myimages
 
+# Продолжить обработку при ошибках и отключить прогресс-бар
+npx image-manifest --continue-on-error --no-progress --json report
+
 # Запустить интерактивный режим (запрашивает все параметры)
 npx image-manifest --interactive
 ```
@@ -60,10 +65,7 @@ npx image-manifest --interactive
 Вы можете хранить настройки в файле конфигурации, чтобы не передавать их каждый раз в командной строке. Допустимые файлы (поиск в текущей директории и выше):
 
 - `.image-manifestrc.json`
-- `.image-manifestrc.yaml`
-- `.image-manifestrc.yml`
-- `.image-manifestrc.js`
-- `image-manifest.config.js`
+- `.image-manifestrc`
 - свойство `"image-manifest"` в `package.json`
 
 Пример `.image-manifestrc.json`:
@@ -96,6 +98,7 @@ await run({
   height: null,
   concurrency: 4,
   includeSize: true,
+  continueOnError: true,
   // manifestOnly: true  // раскомментируйте, чтобы пропустить конвертацию
 });
 ```
@@ -104,4 +107,18 @@ await run({
 
 ```ts
 import type { ImageManifest, ImageFile } from 'image-manifest';
+```
+
+Также можно импортировать отдельные утилиты:
+
+```ts
+import { imageProcessing } from 'image-manifest/image-processing';
+import { isImage } from 'image-manifest/is-image';
+import { collectImages } from 'image-manifest/collect-images';
+```
+
+Для отладки установите переменную окружения `DEBUG`:
+
+```bash
+DEBUG=image-manifest:* npx image-manifest --src photos
 ```

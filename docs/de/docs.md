@@ -37,6 +37,8 @@ npx image-manifest@latest
 | `--concurrency`, `-c` | Maximale Anzahl gleichzeitiger Bildverarbeitungsaufgaben               | 5        |
 | `--include-size`      | Bildabmessungen (Breite und Höhe) in das JSON aufnehmen                | false    |
 | `--manifest-only`     | Nur JSON-Manifest generieren, Bildkonvertierung überspringen           | false    |
+| `--no-progress`       | Fortschrittsbalken deaktivieren                                        | false    |
+| `--continue-on-error` | Verarbeitung fortsetzen, auch wenn einzelne Bilder fehlschlagen        | false    |
 | `--interactive`, `-i` | Interaktiven Modus erzwingen, auch wenn Argumente vorhanden sind       | false    |
 
 ## ✨ Beispiele
@@ -51,6 +53,9 @@ npx image-manifest --src sources --height 2000
 # Nur ein JSON-Manifest aus vorhandenen Bildern erstellen (keine Verarbeitung)
 npx image-manifest --manifest-only --json galerie --src meine-bilder
 
+# Fortsetzen, auch wenn einige Bilder fehlschlagen, ohne Fortschrittsbalken
+npx image-manifest --continue-on-error --no-progress --json bericht
+
 # Interaktiver Modus (fragt jede Option ab)
 npx image-manifest --interactive
 ```
@@ -60,10 +65,7 @@ npx image-manifest --interactive
 Sie können Ihre Optionen in einer Konfigurationsdatei speichern, anstatt sie jedes Mal als CLI-Argumente anzugeben. Mögliche Dateien (werden im aktuellen Verzeichnis und darüber gesucht):
 
 - `.image-manifestrc.json`
-- `.image-manifestrc.yaml`
-- `.image-manifestrc.yml`
-- `.image-manifestrc.js`
-- `image-manifest.config.js`
+- `.image-manifestrc`
 - eine `"image-manifest"` Eigenschaft in `package.json`
 
 Beispiel `.image-manifestrc.json`:
@@ -96,6 +98,7 @@ await run({
   height: null,
   concurrency: 4,
   includeSize: true,
+  continueOnError: true,
   // manifestOnly: true  // Kommentar entfernen, um Konvertierung zu überspringen
 });
 ```
@@ -104,4 +107,18 @@ TypeScript-Benutzer können die Manifest-Typen importieren:
 
 ```ts
 import type { ImageManifest, ImageFile } from 'image-manifest';
+```
+
+Einzelne Hilfsfunktionen lassen sich ebenfalls importieren:
+
+```ts
+import { imageProcessing } from 'image-manifest/image-processing';
+import { isImage } from 'image-manifest/is-image';
+import { collectImages } from 'image-manifest/collect-images';
+```
+
+Debug-Ausgaben aktivieren Sie mit der Umgebungsvariablen `DEBUG`:
+
+```bash
+DEBUG=image-manifest:* npx image-manifest --src photos
 ```

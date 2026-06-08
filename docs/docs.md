@@ -37,6 +37,8 @@ npx image-manifest@latest
 | `--concurrency`, `-c` | Maximum number of concurrent image processing tasks                        | 5        |
 | `--include-size`      | Include image dimensions (width and height) in the JSON manifest           | false    |
 | `--manifest-only`     | Only generate JSON manifest, skip image conversion                         | false    |
+| `--no-progress`       | Disable the progress bar                                                   | false    |
+| `--continue-on-error` | Continue processing even if some images fail                               | false    |
 | `--interactive`, `-i` | Force interactive mode even if arguments are provided                      | false    |
 
 ## ✨ Examples
@@ -51,6 +53,9 @@ npx image-manifest --src sources --height 2000
 # Only create a JSON manifest from existing images (no processing)
 npx image-manifest --manifest-only --json gallery --src myimages
 
+# Continue processing even if some images fail, and skip progress bar
+npx image-manifest --continue-on-error --no-progress --json report
+
 # Run interactive mode (asks for every option)
 npx image-manifest --interactive
 ```
@@ -60,10 +65,7 @@ npx image-manifest --interactive
 You can store your options in a configuration file instead of passing CLI arguments every time. Create any of these files (searched in the current directory and up):
 
 - `.image-manifestrc.json`
-- `.image-manifestrc.yaml`
-- `.image-manifestrc.yml`
-- `.image-manifestrc.js`
-- `image-manifest.config.js`
+- `.image-manifestrc`
 - a `"image-manifest"` property in `package.json`
 
 Example `.image-manifestrc.json`:
@@ -96,6 +98,7 @@ await run({
   height: null,
   concurrency: 4,
   includeSize: true,
+  continueOnError: true,
   // manifestOnly: true  // uncomment to skip conversion
 });
 ```
@@ -104,4 +107,18 @@ TypeScript users can import the manifest types:
 
 ```ts
 import type { ImageManifest, ImageFile } from 'image-manifest';
+```
+
+You can also import individual utilities for finer control:
+
+```ts
+import { imageProcessing } from 'image-manifest/image-processing';
+import { isImage } from 'image-manifest/is-image';
+import { collectImages } from 'image-manifest/collect-images';
+```
+
+To enable debug output, set the `DEBUG` environment variable:
+
+```bash
+DEBUG=image-manifest:* npx image-manifest --src photos
 ```
