@@ -39,7 +39,7 @@
     "dev": "DEBUG=image-manifest:* tsx src/cli.ts",
     "start": "DEBUG=image-manifest:* node ./dist/cli.js",
     "build": "rm -rf ./dist && tsc",
-    "public:lib": "npm run build && npm publish",
+    "prepublishOnly": "npm run build",
     "format": "prettier . --write",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

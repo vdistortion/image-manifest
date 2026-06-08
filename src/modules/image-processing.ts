@@ -1,5 +1,5 @@
 import fs from 'node:fs/promises';
-import { join, parse, resolve } from 'node:path';
+import { join, parse } from 'node:path';
 import sharp from 'sharp';
 import type { FormatType, ImageType, MaxSizeType } from '../types.js';
 
@@ -17,7 +17,7 @@ export const imageProcessing = async (
   maxHeight: MaxSizeType,
   format: FormatType,
 ) => {
-  const fullPath = join(resolve(image.dist), getName(image.name, format));
+  const fullPath = join(image.dist, getName(image.name, format));
   await fs.mkdir(image.dist, { recursive: true });
 
   const input = sharp(image.path, {

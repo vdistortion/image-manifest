@@ -18,19 +18,16 @@ export async function run(options: OptionsType): Promise<{ status: string; messa
     throw new SourceNotFoundError(options.src);
   }
 
-  // Проверка: не находится ли dist внутри src
   const relDistToSrc = relative(absSrc, absDist);
   if (relDistToSrc && !relDistToSrc.startsWith('..') && relDistToSrc !== '') {
     throw new DistInsideSourceError();
   }
 
-  // Проверка: не находится ли src внутри dist
   const relSrcToDist = relative(absDist, absSrc);
   if (relSrcToDist && !relSrcToDist.startsWith('..') && relSrcToDist !== '') {
     throw new SourceInsideDistError();
   }
 
-  // Если запрошен только манифест
   if (options.manifestOnly) {
     if (options.json) {
       const nameJson = join(absDist, `${options.json}.json`);

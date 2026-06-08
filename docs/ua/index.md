@@ -9,7 +9,7 @@ hero:
   actions:
     - theme: brand
       text: Документація
-      link: /docs
+      link: /ua/docs
 
 features:
   - title: Конвертація форматів зображень

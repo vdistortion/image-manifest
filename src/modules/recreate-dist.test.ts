@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
-import { mkdtemp, rm, access } from 'node:fs/promises';
+import { mkdtemp, rm, access, mkdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { recreateDist } from './recreate-dist.js';
@@ -25,8 +25,8 @@ describe('recreateDist', () => {
   it('removes and recreates directory if it already exists', async () => {
     // создаём подпапку с файлом
     const subDir = join(distDir, 'sub');
-    await import('node:fs/promises').then((fs) => fs.mkdir(subDir, { recursive: true }));
-    await import('node:fs/promises').then((fs) => fs.writeFile(join(subDir, 'test.txt'), 'hello'));
+    await mkdir(subDir, { recursive: true });
+    await writeFile(join(subDir, 'test.txt'), 'hello');
 
     await recreateDist(distDir);
 

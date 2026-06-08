@@ -3,7 +3,7 @@ import { join, resolve, dirname } from 'node:path';
 import sharp from 'sharp';
 import debugLib from 'debug';
 import { isImage } from './is-image.js';
-import type { ImageItem, ImageManifest } from '../types.js';
+import type { ImageItem } from '../types.js';
 
 const debug = debugLib('image-manifest:to-json');
 
@@ -55,18 +55,7 @@ export const toJson = async (
 
   await enrichWithDimensions(structure);
 
-  // Фильтрация: только папки и изображения
-  const imageFilter = (_: string, value: ImageManifest): ImageManifest => {
-    if (Array.isArray(value)) {
-      return value.filter((item: ImageItem) => {
-        const isFolder = item.type === 'folder';
-        const isImageFile = item.type === 'file' && isImage(item.name);
-        return isFolder || isImageFile;
-      });
-    }
-    return value;
-  };
-  const json = JSON.stringify(structure, imageFilter, 2);
+  const json = JSON.stringify(structure, null, 2);
   // Создаём директорию перед записью
   await mkdir(dirname(jsonName), { recursive: true });
   await writeFile(jsonName, json, 'utf8');

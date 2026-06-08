@@ -8,13 +8,14 @@ on:
       - 'package.json'
       - 'package-lock.json'
       - 'tsconfig.json'
-      - '.github/workflows/test.yml'
+      - '.github/workflows/tests.yml'
   workflow_dispatch:
 
 jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         node-version: [22, 24, 26]
     steps:
