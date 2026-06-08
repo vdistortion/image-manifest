@@ -44,9 +44,11 @@ describe('toJson', () => {
         ],
       },
     ];
-    (getStructure as any).mockImplementation((fs: any, dir: string, cb: Function) => {
-      cb(null, mockStructure);
-    });
+    (getStructure as any).mockImplementation(
+      (fs: any, dir: string, cb: (error: Error | null, structure: any) => void) => {
+        cb(null, mockStructure);
+      },
+    );
 
     const jsonName = '/tmp/manifest.json';
     await toJson(jsonName, '/base', false);
@@ -67,9 +69,11 @@ describe('toJson', () => {
 
   it('includes sizes when includeSize is true', async () => {
     const mockStructure = [{ type: 'file', name: 'img.png' }];
-    (getStructure as any).mockImplementation((fs: any, dir: string, cb: Function) => {
-      cb(null, mockStructure);
-    });
+    (getStructure as any).mockImplementation(
+      (fs: any, dir: string, cb: (error: Error | null, structure: any) => void) => {
+        cb(null, mockStructure);
+      },
+    );
 
     const jsonName = '/tmp/manifest.json';
     await toJson(jsonName, '/base', true);
@@ -81,9 +85,11 @@ describe('toJson', () => {
   });
 
   it('handles empty directory', async () => {
-    (getStructure as any).mockImplementation((fs: any, dir: string, cb: Function) => {
-      cb(null, []);
-    });
+    (getStructure as any).mockImplementation(
+      (fs: any, dir: string, cb: (error: Error | null, structure: any) => void) => {
+        cb(null, []);
+      },
+    );
 
     await toJson('/tmp/empty.json', '/base', false);
     expect(writeFile).toHaveBeenCalledWith('/tmp/empty.json', '[]', 'utf8');

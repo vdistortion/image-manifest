@@ -56,6 +56,7 @@ export async function run(options: OptionsType): Promise<{ status: string; messa
     options.height,
     options.format,
     options.concurrency,
+    options.progress,
   );
   debug('Image processing completed');
 

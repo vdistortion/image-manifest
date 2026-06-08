@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { existsSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { confirm, input, number, rawlist } from '@inquirer/prompts';
 import { cosmiconfig } from 'cosmiconfig';
 import { Command } from 'commander';
@@ -81,32 +82,35 @@ const defaultOptions: OptionsType = {
   includeSize: false,
 };
 
-const program = new Command();
-
-program
-  .name('image-manifest')
-  .description('Convert images and generate JSON manifest')
-  .version(pkg.version, '-v, --version')
-  .option('-s, --src <path>', 'source directory', defaultOptions.src)
-  .option('-d, --dist <path>', 'output directory', defaultOptions.dist)
-  .option(
-    '-f, --format <format>',
-    'output format: webp, jpg, png, avif, original',
-    defaultOptions.format,
-  )
-  .option('-j, --json <name>', 'generate JSON manifest with given name')
-  .option('--no-json', 'skip JSON generation')
-  .option('-W, --width <pixels>', 'max width', parseInt)
-  .option('-H, --height <pixels>', 'max height', parseInt)
-  .option(
-    '-c, --concurrency <number>',
-    'max concurrent tasks',
-    parseInt,
-    defaultOptions.concurrency,
-  )
-  .option('--include-size', 'include width/height in JSON')
-  .option('--manifest-only', 'only generate JSON, skip image conversion')
-  .option('-i, --interactive', 'force interactive mode');
+function createProgram() {
+  const program = new Command();
+  program
+    .name('image-manifest')
+    .description('Convert images and generate JSON manifest')
+    .version(pkg.version, '-v, --version')
+    .option('-s, --src <path>', 'source directory', defaultOptions.src)
+    .option('-d, --dist <path>', 'output directory', defaultOptions.dist)
+    .option(
+      '-f, --format <format>',
+      'output format: webp, jpg, png, avif, original',
+      defaultOptions.format,
+    )
+    .option('-j, --json <name>', 'generate JSON manifest with given name')
+    .option('--no-json', 'skip JSON generation')
+    .option('-W, --width <pixels>', 'max width', parseInt)
+    .option('-H, --height <pixels>', 'max height', parseInt)
+    .option(
+      '-c, --concurrency <number>',
+      'max concurrent tasks',
+      parseInt,
+      defaultOptions.concurrency,
+    )
+    .option('--include-size', 'include width/height in JSON')
+    .option('--manifest-only', 'only generate JSON, skip image conversion')
+    .option('--no-progress', 'disable progress bar', false)
+    .option('-i, --interactive', 'force interactive mode');
+  return program;
+}
 
 export async function main() {
   const args = process.argv.slice(2);
@@ -134,6 +138,8 @@ export async function main() {
     return;
   }
 
+  const program = createProgram();
+
   program.action(async (opts: CliOptions) => {
     const options: OptionsType = {
       src: opts.src ?? defaultOptions.src,
@@ -145,6 +151,7 @@ export async function main() {
       concurrency: opts.concurrency ?? defaultOptions.concurrency,
       includeSize: opts.includeSize ?? false,
       manifestOnly: opts.manifestOnly ?? false,
+      progress: opts.progress ?? true,
     };
 
     try {
@@ -167,7 +174,10 @@ export async function main() {
   await program.parseAsync(process.argv);
 }
 
-main().catch((err) => {
-  console.error('Fatal error:', err);
-  process.exit(1);
-});
+const currentFile = new URL(import.meta.url).pathname;
+if (process.argv[1] && resolve(process.argv[1]) === currentFile) {
+  main().catch((err) => {
+    console.error('Fatal error:', err);
+    process.exit(1);
+  });
+}

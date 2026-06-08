@@ -27,6 +27,7 @@ export type OptionsType = {
   concurrency: number;
   includeSize: boolean;
   manifestOnly?: boolean;
+  progress?: boolean;
 };
 
 export type CliOptions = {
@@ -39,6 +40,7 @@ export type CliOptions = {
   concurrency?: number;
   includeSize?: boolean;
   manifestOnly?: boolean;
+  progress?: boolean;
 };
 
 export type ImageType = {

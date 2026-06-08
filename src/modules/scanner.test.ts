@@ -24,7 +24,7 @@ vi.mock('./image-processing.js', () => ({
 }));
 
 vi.mock('p-limit', () => ({
-  default: (concurrency: number) => (fn: () => Promise<void>) => fn(),
+  default: (_concurrency: number) => (fn: () => Promise<void>) => fn(),
 }));
 
 vi.mock('cli-progress', () => {

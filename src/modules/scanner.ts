@@ -14,6 +14,7 @@ export const scanner = async (
   maxHeight: MaxSizeType,
   format: FormatType,
   concurrency: number,
+  progress = true,
 ): Promise<number> => {
   // 1. Собрать все файлы-изображения
   const images = await collectImages(srcDir, srcDir, distDir);
@@ -22,9 +23,12 @@ export const scanner = async (
     return 0;
   }
 
-  // 2. Создать один прогресс-бар
-  const bar = new SingleBar({}, Presets.rect);
-  bar.start(images.length, 0);
+  let bar: SingleBar | null = null;
+  if (progress) {
+    // 2. Создать один прогресс-бар
+    bar = new SingleBar({}, Presets.rect);
+    bar.start(images.length, 0);
+  }
 
   const limit = pLimit(concurrency);
   let processed = 0;
@@ -34,13 +38,13 @@ export const scanner = async (
       limit(async () => {
         await imageProcessing(image, maxWidth, maxHeight, format);
         processed++;
-        bar.update(processed);
+        bar?.update(processed);
       }),
     );
 
     await Promise.all(tasks);
     return processed;
   } finally {
-    bar.stop();
+    bar?.stop();
   }
 };

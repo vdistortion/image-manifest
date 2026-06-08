@@ -42,6 +42,11 @@ export default tseslint.config(
   {
     files: ['src/**/*.test.ts'],
     extends: [tseslint.configs.disableTypeChecked],
+    rules: {
+      '@typescript-eslint/no-unused-vars': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unsafe-function-type': 'off',
+    },
   },
 
   {
