@@ -4,7 +4,43 @@ All notable changes to this project will be documented in this file.
 
 The format is inspired by [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [2.0.0] - 2026-06-07
+## [2.1.0] - 2026-06-09
+
+### Added
+
+- **`--version` flag** now outputs the current version number.
+- **`--no-progress` option** to disable the progress bar (useful in CI and scripts).
+- **`--continue-on-error` option** to continue processing even if some images fail.
+- **Interactive mode now asks `manifestOnly` first**, skipping unnecessary conversion questions when only a manifest is needed.
+- **Subpath exports** for fine‑grained imports: `image-manifest/image-processing`, `image-manifest/is-image`, `image-manifest/collect-images`, `image-manifest/cli`.
+- **ESLint** with `@typescript-eslint` strict configuration (flat config, type‑checked rules).
+- **Pre‑commit hooks** via Husky and lint‑staged (automatic formatting and linting before each commit).
+- **Coverage reporting** with Coveralls and automated submission in CI.
+- **Debug logging** using the `debug` module (activated by `DEBUG=image-manifest:*`).
+- Enhanced documentation: new options, subpath API examples, debug instructions, and updated translations.
+
+### Changed
+
+- **Replaced `directory-structure-json` dependency** with a native recursive function using `fs/promises`.
+- **Removed `main` field** from `package.json`; `exports` now fully defines all entry points.
+- **Internal logging** now uses `debug`; console output is limited to the CLI and user‑visible results.
+- **Error handling** uses custom error classes (`SourceNotFoundError`, `DistInsideSourceError`, `SourceInsideDistError`) for user‑friendly messages.
+- **Path safety checks** prevent recursive processing (output inside source and vice versa) with clear error messages.
+- CLI now uses `program.parseAsync` to properly await async actions.
+- `OptionsType` and `CliOptions` types refined; `ImageManifest` types re‑exported from the package root.
+
+### Fixed
+
+- Progress bar now correctly handles an empty image list and is guaranteed to stop via `try/finally`.
+- `toJson` now creates the output directory if it doesn’t exist before writing the JSON manifest.
+- Extensive test suite added for all modules, integration scenarios, and CLI argument combinations.
+- Various minor linting issues resolved.
+
+### Removed
+
+- Dependency on `directory-structure-json` and its type definitions.
+
+## [2.0.0] - 2026-06-06
 
 ### Changed
 

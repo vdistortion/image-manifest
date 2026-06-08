@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitepress';
+import pkg from '../../package.json' with { type: 'json' };
 
 export default defineConfig({
   title: 'image-manifest',
@@ -18,7 +19,13 @@ export default defineConfig({
         outline: {
           label: 'Auf dieser Seite',
         },
-        nav: [{ text: 'Dokumentation', link: '/de/docs' }],
+        nav: [
+          { text: 'Dokumentation', link: '/de/docs' },
+          {
+            text: `v${pkg.version}`,
+            link: 'https://github.com/vdistortion/image-manifest/blob/main/CHANGELOG.md',
+          },
+        ],
         sidebar: [
           {
             text: 'Dokumentation',
@@ -35,7 +42,13 @@ export default defineConfig({
         outline: {
           label: 'На цій сторінці',
         },
-        nav: [{ text: 'Документація', link: '/ua/docs' }],
+        nav: [
+          { text: 'Документація', link: '/ua/docs' },
+          {
+            text: `v${pkg.version}`,
+            link: 'https://github.com/vdistortion/image-manifest/blob/main/CHANGELOG.md',
+          },
+        ],
         sidebar: [
           {
             text: 'Документація',
@@ -52,7 +65,13 @@ export default defineConfig({
         outline: {
           label: 'На этой странице',
         },
-        nav: [{ text: 'Документация', link: '/ru/docs' }],
+        nav: [
+          { text: 'Документация', link: '/ru/docs' },
+          {
+            text: `v${pkg.version}`,
+            link: 'https://github.com/vdistortion/image-manifest/blob/main/CHANGELOG.md',
+          },
+        ],
         sidebar: [
           {
             text: 'Документация',
@@ -63,7 +82,13 @@ export default defineConfig({
     },
   },
   themeConfig: {
-    nav: [{ text: 'Docs', link: '/docs' }],
+    nav: [
+      { text: 'Docs', link: '/docs' },
+      {
+        text: `v${pkg.version}`,
+        link: 'https://github.com/vdistortion/image-manifest/blob/main/CHANGELOG.md',
+      },
+    ],
     sidebar: [
       {
         text: 'Docs',

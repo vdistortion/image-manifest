@@ -18,6 +18,8 @@ features:
     details: for static sites without a backend
   - title: Interactive mode
     details: when run without arguments
+  - title: Programmatic API
+    details: use as a library with full TypeScript support
 ---
 
 ## 🚀 Use

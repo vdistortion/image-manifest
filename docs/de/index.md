@@ -18,6 +18,8 @@ features:
     details: für statische Seiten ohne Backend
   - title: Interaktiver Modus
     details: bei Start ohne Argumente
+  - title: Programmatic API
+    details: Nutzung als Bibliothek mit voller TypeScript-Unterstützung
 ---
 
 ## 🚀 Verwendung
