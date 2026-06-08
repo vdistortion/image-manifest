@@ -28,7 +28,7 @@ npx image-manifest@latest
 
 | Option                | Description                                                                | Default  |
 | --------------------- | -------------------------------------------------------------------------- | -------- |
-| `--src`, `-s`         | Source folder name                                                         | img-src  |
+| `--src`, `-s`         | Source folder name (must exist)                                            | img-src  |
 | `--dist`, `-d`        | Result folder name                                                         | img-dist |
 | `--format`, `-f`      | Output format: `webp`, `jpg`, `png`, `avif`, or keep original (`original`) | webp     |
 | `--json`, `-j`        | Output JSON filename (or `--no-json` to skip)                              | null     |
