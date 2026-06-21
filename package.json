@@ -24,6 +24,7 @@
       "import": "./dist/cli.js"
     }
   },
+  "typings": "./dist/index.d.ts",
   "type": "module",
   "bin": "./dist/cli.js",
   "homepage": "https://image-manifest.zvalentin.ru",
@@ -87,28 +88,28 @@
     "@inquirer/prompts": "^8.5.2",
     "cli-progress": "^3.12.0",
     "commander": "^15.0.0",
-    "cosmiconfig": "^9.0.1",
+    "cosmiconfig": "^9.0.2",
     "debug": "^4.4.3",
     "p-limit": "^7.3.0",
-    "sharp": "^0.34.5"
+    "sharp": "^0.35.2"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/cli-progress": "^3.11.6",
     "@types/debug": "^4.1.13",
-    "@types/node": "^25.9.2",
-    "@vitest/coverage-v8": "^4.1.8",
-    "eslint": "^10.4.1",
+    "@types/node": "^26.0.0",
+    "@vitest/coverage-v8": "^4.1.9",
+    "eslint": "^10.5.0",
     "eslint-config-prettier": "^10.1.8",
     "globals": "^17.6.0",
     "husky": "^9.1.7",
-    "lint-staged": "^17.0.7",
-    "prettier": "3.8.3",
+    "lint-staged": "^17.0.8",
+    "prettier": "^3.8.4",
     "tsx": "^4.22.4",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.60.1",
+    "typescript-eslint": "^8.61.1",
     "vitepress": "^1.6.4",
-    "vitest": "^4.1.8"
+    "vitest": "^4.1.9"
   },
   "files": [
     "dist"

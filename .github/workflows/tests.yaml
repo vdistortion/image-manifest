@@ -8,7 +8,7 @@ on:
       - 'package.json'
       - 'package-lock.json'
       - 'tsconfig.json'
-      - '.github/workflows/tests.yml'
+      - '.github/workflows/tests.yaml'
   workflow_dispatch:
 
 jobs:
