@@ -1,6 +1,6 @@
 {
   "name": "image-manifest",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "CLI tool to batch-convert and resize images (webp, avif, png, jpg) and generate a JSON directory manifest — for static sites and galleries",
   "exports": {
     ".": {
