@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { existsSync } from 'node:fs';
+import { existsSync, realpathSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { confirm, input, number, rawlist } from '@inquirer/prompts';
 import { cosmiconfig } from 'cosmiconfig';
@@ -188,8 +188,8 @@ export async function main() {
   await program.parseAsync(process.argv);
 }
 
-const currentFile = new URL(import.meta.url).pathname;
-if (process.argv[1] && resolve(process.argv[1]) === currentFile) {
+const currentFile = realpathSync(new URL(import.meta.url).pathname);
+if (process.argv[1] && realpathSync(resolve(process.argv[1])) === currentFile) {
   main().catch((err) => {
     console.error('Fatal error:', err);
     process.exit(1);
