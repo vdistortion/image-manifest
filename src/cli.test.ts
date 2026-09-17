@@ -118,8 +118,10 @@ describe('CLI', () => {
     });
 
     it('unknown option exits with error', async () => {
+      const stderrSpy = vi.spyOn(process.stderr, 'write').mockImplementation(() => true);
       setArgv(['--unknown-flag']);
       await expect(main()).rejects.toThrow('process.exit:1');
+      stderrSpy.mockRestore();
     });
 
     it('interactive mode asks questions and runs', async () => {
