@@ -10,14 +10,26 @@ const html = `<!doctype html>
 <title>image-manifest</title><style>
 body{font:16px system-ui,sans-serif;max-width:680px;margin:40px auto;padding:0 20px;color:#222}label{display:block;margin:16px 0 6px}input{box-sizing:border-box;width:100%;padding:10px;font:inherit}button{margin-top:22px;padding:10px 22px;font:inherit;cursor:pointer}.bar{height:18px;background:#eee;margin-top:22px}.fill{height:100%;width:0;background:#369eff;transition:width .2s}.status{margin-top:12px;white-space:pre-wrap;color:#555}</style></head>
 <body><h1>Конвертация изображений</h1>
-<label>Исходная папка</label><input id="src" placeholder="/path/to/images">
-<label>Папка результата</label><input id="dist" placeholder="/path/to/images-webp">
+<label>Исходная папка</label><input id="src" placeholder="Например: /home/user/photos или C:\\Users\\User\\Pictures">
+<small>Можно перетащить папку сюда. В обычном браузере путь может быть недоступен — тогда вставьте его вручную.</small>
+<label>Папка результата</label><input id="dist" placeholder="Будет создана автоматически: исходная-папка-webp">
 <label>Максимальная сторона, px</label><input id="max" type="number" min="1" value="1000">
 <button id="start">Начать</button><div class="bar"><div class="fill" id="fill"></div></div><div class="status" id="status">Готово к запуску</div>
 <script>
-const $=id=>document.getElementById(id), start=$('start');
-async function refresh(){const p=await fetch('/api/progress').then(r=>r.json());$('fill').style.width=(p.total?p.processed/p.total*100:0)+'%';$('status').textContent=p.message+(p.current?'\\n'+p.current:'');if(p.running)setTimeout(refresh,300)}
-start.onclick=async()=>{start.disabled=true;$('status').textContent='Подготовка...';const body={src:$('src').value,dist:$('dist').value,maxSide:Number($('max').value)||1000};const r=await fetch('/api/start',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});if(!r.ok){$('status').textContent=await r.text();start.disabled=false;return}refresh().finally(()=>{start.disabled=false})};
+const $=id=>document.getElementById(id), src=$('src'), dist=$('dist'), start=$('start'), status=$('status');
+let distAuto=true;
+function automaticDist(){const value=src.value.trim().replace(/[\\\\/]+$/,'');return value?value+'-webp':''}
+function updateDist(){if(distAuto)dist.value=automaticDist()}
+src.addEventListener('input',updateDist);
+dist.addEventListener('input',()=>{distAuto=false});
+const savedSrc=localStorage.getItem('image-manifest.src');
+const savedDist=localStorage.getItem('image-manifest.dist');
+if(savedSrc){src.value=savedSrc;dist.value=savedDist||automaticDist();distAuto=!savedDist}
+src.addEventListener('drop',event=>{event.preventDefault();const file=event.dataTransfer.files[0];const uri=event.dataTransfer.getData('text/uri-list');const path=file&&file.path||(uri&&decodeURIComponent(uri.replace(/^file:\\\\//,'').split('\\n')[0]));if(path){src.value=path;distAuto=true;updateDist();status.textContent='Папка выбрана: '+path}else status.textContent='Браузер не передал путь к папке. Вставьте путь вручную.'});
+src.addEventListener('dragover',event=>event.preventDefault());
+async function refresh(){const p=await fetch('/api/progress').then(r=>r.json());$('fill').style.width=(p.total?p.processed/p.total*100:0)+'%';status.textContent=p.message+(p.current?'\\n'+p.current:'');if(p.running)setTimeout(refresh,300)}
+start.onclick=async()=>{start.disabled=true;status.textContent='Подготовка...';localStorage.setItem('image-manifest.src',src.value);localStorage.setItem('image-manifest.dist',dist.value);const body={src:src.value,dist:dist.value,maxSide:Number($('max').value)||1000};const r=await fetch('/api/start',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});if(!r.ok){status.textContent=await r.text();start.disabled=false;return}refresh().finally(()=>{start.disabled=false})};
+updateDist();
 </script></body></html>`;
 
 type Progress = {
