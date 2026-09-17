@@ -7,6 +7,7 @@ import { Command } from 'commander';
 import { run } from './index.js';
 import type { CliOptions, OptionsType, FormatType } from './types.js';
 import { SourceNotFoundError, DistInsideSourceError, SourceInsideDistError } from './errors.js';
+import { startUi } from './ui.js';
 import pkg from '../package.json' with { type: 'json' };
 
 const defaultFormat = 'webp';
@@ -129,6 +130,11 @@ export async function main() {
   const args = process.argv.slice(2);
   const hasArgs = args.length > 0;
   const forceInteractive = args.includes('--interactive') || args.includes('-i');
+
+  if (args.includes('--ui')) {
+    await startUi();
+    return;
+  }
 
   if (!hasArgs || forceInteractive) {
     let options: OptionsType;
