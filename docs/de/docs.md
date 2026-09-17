@@ -6,9 +6,9 @@ sidebar: false
 
 ![image-manifest](/logo.webp)
 
-Ein CLI-Tool, das Bilder in das gewünschte Format konvertiert, eine Dateistruktur im JSON-Format generiert und bei Bedarf die Größe ändert. Nützlich für statische Websites, Galerien und Automatisierung.
+Ein plattformübergreifendes Node.js-Tool, das Bilder in das gewünschte Format konvertiert, eine Dateistruktur im JSON-Format generiert und bei Bedarf die Größe ändert. Es kann über die Kommandozeile, eine lokale Web-Oberfläche oder als Bibliothek verwendet werden. Nützlich für statische Websites, Galerien und Automatisierung.
 
-`npx image-manifest --help` zeigt alle verfügbaren Optionen.
+Node.js 22 oder neuer ist erforderlich. `npx image-manifest --help` zeigt alle verfügbaren Optionen.
 
 ## 📖 Anwendungsbeispiel
 
@@ -64,6 +64,12 @@ npx image-manifest --interactive
 npx image-manifest --ui
 ```
 
+## 🌐 Lokale Web-Oberfläche
+
+Führen Sie `npx image-manifest --ui` aus, um die lokale Oberfläche im Browser zu öffnen. Geben Sie den Quellordner ein, ändern Sie bei Bedarf den automatisch vorgeschlagenen Ausgabeordner (`<quellordner>-webp`), wählen Sie die maximale Seite und klicken Sie auf **Starten**. Die Oberfläche zeigt den Fortschritt an und konvertiert die Bilder in WebP.
+
+Der Server läuft nur auf `127.0.0.1` und verwendet einen zufällig freien Port. Ein Browser kann den vollständigen Pfad eines gezogenen Ordners nicht immer übergeben; das manuelle Einfügen des Pfads bleibt daher am zuverlässigsten.
+
 ## ⚙️ Konfigurationsdatei
 
 Sie können Ihre Optionen in einer Konfigurationsdatei speichern, anstatt sie jedes Mal als CLI-Argumente anzugeben. Mögliche Dateien (werden im aktuellen Verzeichnis und darüber gesucht):
@@ -117,9 +123,18 @@ Einzelne Hilfsfunktionen lassen sich ebenfalls importieren:
 
 ```ts
 import { imageProcessing } from 'image-manifest/image-processing';
+import { convertToWebp } from 'image-manifest/to-webp';
 import { isImage } from 'image-manifest/is-image';
 import { collectImages } from 'image-manifest/collect-images';
 ```
+
+`convertToWebp` akzeptiert einen Dateipfad oder `Buffer`, gibt einen WebP-`Buffer` und Bildabmessungen zurück und begrenzt die längste Seite standardmäßig auf 1000 Pixel:
+
+```ts
+const { buffer, width, height } = await convertToWebp(input, 1000);
+```
+
+Quell- und Ausgabeordner müssen verschieden sein. Die Bibliothek bricht ab, wenn sie identisch sind oder einer innerhalb des anderen liegt.
 
 Debug-Ausgaben aktivieren Sie mit der Umgebungsvariablen `DEBUG`:
 

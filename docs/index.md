@@ -16,6 +16,8 @@ features:
     details: webp, jpg, png, avif
   - title: Generate JSON structure
     details: for static sites without a backend
+  - title: Local Web UI
+    details: convert images without command-line options
   - title: Interactive mode
     details: when run without arguments
   - title: Programmatic API

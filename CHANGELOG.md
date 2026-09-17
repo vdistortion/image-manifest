@@ -4,6 +4,25 @@ All notable changes to this project will be documented in this file.
 
 The format is inspired by [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.2.0] - 2026-09-17
+
+### Added
+
+- **Local Web UI** via `--ui` with source/output folder fields, WebP conversion, maximum-side setting, progress reporting, drag-and-drop path detection, and English, Russian, Ukrainian, and German interface labels.
+- **`convertToWebp` API** for converting a file path or `Buffer` to WebP with a maximum side of 1000 pixels by default.
+- **`image-manifest/to-webp` subpath export** for integrations such as Directus extensions.
+
+### Changed
+
+- English is now the canonical and most complete documentation language; the other translations include the same current CLI, Web UI, and API information.
+- The Web UI uses a randomly selected localhost port and does not persist paths between sessions.
+
+### Fixed
+
+- `file://` paths are normalized by the Web UI.
+- Processing is rejected when source and output directories are the same, preventing accidental overwrites.
+- Web UI script errors and processing failures are highlighted clearly.
+
 ## [2.1.0] - 2026-06-09
 
 ### Added
