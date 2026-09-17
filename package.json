@@ -11,6 +11,10 @@
       "types": "./dist/modules/image-processing.d.ts",
       "import": "./dist/modules/image-processing.js"
     },
+    "./to-webp": {
+      "types": "./dist/modules/to-webp.d.ts",
+      "import": "./dist/modules/to-webp.js"
+    },
     "./is-image": {
       "types": "./dist/modules/is-image.d.ts",
       "import": "./dist/modules/is-image.js"

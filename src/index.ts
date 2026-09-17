@@ -6,6 +6,8 @@ import { scanner } from './modules/scanner.js';
 import { recreateDist } from './modules/recreate-dist.js';
 import type { OptionsType } from './types.js';
 export type { OptionsType } from './types.js';
+export { convertToWebp, DEFAULT_MAX_IMAGE_SIDE } from './modules/to-webp.js';
+export type { WebpConversionResult } from './modules/to-webp.js';
 import { SourceNotFoundError, DistInsideSourceError, SourceInsideDistError } from './errors.js';
 
 const debug = debugLib('image-manifest:run');
