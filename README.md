@@ -6,7 +6,7 @@
 
 A CLI tool to batch-convert and resize images (webp, avif, jpg, png) and generate a JSON manifest — for static sites and galleries.
 
-[![image-manifest](docs/public/logo.webp)](https://image-manifest.zvalentin.ru)
+[![image-manifest](docs/public/logo.webp)](https://image-manifest.zvalentin.com)
 
 ## Quick Start
 
@@ -14,6 +14,6 @@ A CLI tool to batch-convert and resize images (webp, avif, jpg, png) and generat
 npx image-manifest@latest --json manifest
 ```
 
-See the [full documentation](https://image-manifest.zvalentin.ru) for all options, interactive mode, configuration files, and programmatic API usage.
+See the [full documentation](https://image-manifest.zvalentin.com) for all options, interactive mode, configuration files, and programmatic API usage.
 
 > ⭐ Like this tool? Give it a star on [GitHub](https://github.com/vdistortion/image-manifest) – it helps others discover the project!

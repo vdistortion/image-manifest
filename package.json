@@ -31,7 +31,7 @@
   "typings": "./dist/index.d.ts",
   "type": "module",
   "bin": "./dist/cli.js",
-  "homepage": "https://image-manifest.zvalentin.ru",
+  "homepage": "https://image-manifest.zvalentin.com",
   "repository": {
     "type": "git",
     "url": "git@github.com:vdistortion/image-manifest.git"
