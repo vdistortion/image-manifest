@@ -40,6 +40,7 @@ npx image-manifest@latest
 | `--no-progress`       | Fortschrittsbalken deaktivieren                                        | false    |
 | `--continue-on-error` | Verarbeitung fortsetzen, auch wenn einzelne Bilder fehlschlagen        | false    |
 | `--interactive`, `-i` | Interaktiven Modus erzwingen, auch wenn Argumente vorhanden sind       | false    |
+| `--ui`                | Lokale Web-Oberfläche im Browser öffnen                                | false    |
 
 ## ✨ Beispiele
 
@@ -58,6 +59,9 @@ npx image-manifest --continue-on-error --no-progress --json bericht
 
 # Interaktiver Modus (fragt jede Option ab)
 npx image-manifest --interactive
+
+# Lokale Web-Oberfläche öffnen
+npx image-manifest --ui
 ```
 
 ## ⚙️ Konfigurationsdatei

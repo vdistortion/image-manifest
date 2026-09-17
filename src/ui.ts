@@ -19,27 +19,30 @@ function normalizePath(value: string): string {
 }
 
 const html = `<!doctype html>
-<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>image-manifest</title><style>
 body{font:16px system-ui,sans-serif;max-width:680px;margin:40px auto;padding:0 20px;color:#222}label{display:block;margin:16px 0 6px}input{box-sizing:border-box;width:100%;padding:10px;font:inherit}button{margin-top:22px;padding:10px 22px;font:inherit;cursor:pointer}.bar{height:18px;background:#eee;margin-top:22px}.fill{height:100%;width:0;background:#369eff;transition:width .2s}.status{margin-top:12px;white-space:pre-wrap;color:#555}.status.error{color:#b00020;font-weight:700}</style></head>
-<body><h1>Конвертация изображений в WebP</h1>
-<label>Исходная папка</label><input id="src" placeholder="Например: /home/user/photos или C:\\Users\\User\\Pictures">
-<small>Можно перетащить папку сюда. В обычном браузере путь может быть недоступен — тогда вставьте его вручную.</small>
-<label>Папка результата</label><input id="dist" placeholder="Будет создана автоматически: исходная-папка-webp">
-<label>Максимальная сторона, px</label><input id="max" type="number" min="1" value="1000">
-<button id="start">Начать</button><div class="bar"><div class="fill" id="fill"></div></div><div class="status" id="status">Готово к запуску</div>
+<body><div><label for="language">Language</label><select id="language"><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option><option value="de">Deutsch</option></select></div>
+<h1 id="title">Image conversion to WebP</h1>
+<label id="src-label" for="src">Source folder</label><input id="src" placeholder="For example: /home/user/photos or C:\\Users\\User\\Pictures">
+<small id="drop-hint">You can drop a folder here. If the browser cannot provide its path, paste it manually.</small>
+<label id="dist-label" for="dist">Output folder</label><input id="dist" placeholder="Generated automatically: source-folder-webp">
+<label id="max-label" for="max">Maximum side, px</label><input id="max" type="number" min="1" value="1000">
+<button id="start">Start</button><div class="bar"><div class="fill" id="fill"></div></div><div class="status" id="status">Ready to start</div>
 <script>
-const $=id=>document.getElementById(id), src=$('src'), dist=$('dist'), start=$('start'), status=$('status');
+const $=id=>document.getElementById(id), src=$('src'), dist=$('dist'), start=$('start'), status=$('status'), language=$('language');
+const translations={en:{title:'Image conversion to WebP',src:'Source folder',drop:'You can drop a folder here. If the browser cannot provide its path, paste it manually.',dist:'Output folder',distPlaceholder:'Generated automatically: source-folder-webp',max:'Maximum side, px',start:'Start',ready:'Ready to start',preparing:'Preparing...',dropError:'The browser did not provide the folder path. Paste it manually.'},ru:{title:'Конвертация изображений в WebP',src:'Исходная папка',drop:'Можно перетащить папку сюда. Если браузер не передаст путь, вставьте его вручную.',dist:'Папка результата',distPlaceholder:'Будет создана автоматически: исходная-папка-webp',max:'Максимальная сторона, px',start:'Начать',ready:'Готово к запуску',preparing:'Подготовка...',dropError:'Браузер не передал путь к папке. Вставьте путь вручную.'},uk:{title:'Конвертація зображень у WebP',src:'Вихідна папка',drop:'Можна перетягнути папку сюди. Якщо браузер не передасть шлях, вставте його вручну.',dist:'Папка результату',distPlaceholder:'Буде створена автоматично: вихідна-папка-webp',max:'Максимальна сторона, px',start:'Почати',ready:'Готово до запуску',preparing:'Підготовка...',dropError:'Браузер не передав шлях до папки. Вставте його вручну.'},de:{title:'Bildkonvertierung in WebP',src:'Quellordner',drop:'Sie können einen Ordner hierher ziehen. Wenn der Browser den Pfad nicht liefert, fügen Sie ihn manuell ein.',dist:'Ausgabeordner',distPlaceholder:'Automatisch erstellt: quellordner-webp',max:'Maximale Seite, px',start:'Starten',ready:'Bereit zum Start',preparing:'Vorbereitung...',dropError:'Der Browser hat den Ordnerpfad nicht übergeben. Fügen Sie ihn manuell ein.'}};
+let t=translations.en, distAuto=true;
 function setStatus(message,error=false){status.textContent=message;status.classList.toggle('error',error)}
-let distAuto=true;
+function applyLanguage(code){t=translations[code]||translations.en;document.documentElement.lang=code;title.textContent=t.title;$('src-label').textContent=t.src;dropHint.textContent=t.drop;$('dist-label').textContent=t.dist;dist.placeholder=t.distPlaceholder;$('max-label').textContent=t.max;start.textContent=t.start;if(!status.classList.contains('error'))setStatus(t.ready)}
+language.addEventListener('change',()=>applyLanguage(language.value));
+const title=$('title'),dropHint=$('drop-hint');
 function automaticDist(){const value=src.value.trim().replace(/[\\\\/]+$/,'');return value?value+'-webp':''}
 function updateDist(){if(distAuto)dist.value=automaticDist()}
-src.addEventListener('input',updateDist);
-dist.addEventListener('input',()=>{distAuto=false});
-src.addEventListener('drop',event=>{event.preventDefault();const file=event.dataTransfer.files[0];const uri=event.dataTransfer.getData('text/uri-list');const path=file&&file.path||(uri&&decodeURIComponent(uri.replace('file://','').split('\\n')[0]));if(path){src.value=path;distAuto=true;updateDist();setStatus('Папка выбрана: '+path)}else setStatus('Браузер не передал путь к папке. Вставьте путь вручную.',true)});
-src.addEventListener('dragover',event=>event.preventDefault());
-async function refresh(){const p=await fetch('/api/progress').then(r=>r.json());$('fill').style.width=(p.total?p.processed/p.total*100:0)+'%';setStatus(p.message+(p.current?'\\n'+p.current:''),p.message.startsWith('Ошибка:'));if(p.running)setTimeout(refresh,300)}
-start.onclick=async()=>{start.disabled=true;setStatus('Подготовка...');const body={src:src.value,dist:dist.value,maxSide:Number($('max').value)||1000};const r=await fetch('/api/start',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});if(!r.ok){setStatus(await r.text(),true);start.disabled=false;return}refresh().finally(()=>{start.disabled=false})};
+src.addEventListener('input',updateDist);dist.addEventListener('input',()=>{distAuto=false});
+src.addEventListener('drop',event=>{event.preventDefault();const file=event.dataTransfer.files[0];const uri=event.dataTransfer.getData('text/uri-list');const path=file&&file.path||(uri&&decodeURIComponent(uri.replace('file://','').split('\\n')[0]));if(path){src.value=path;distAuto=true;updateDist();setStatus('Folder selected: '+path)}else setStatus(t.dropError,true)});src.addEventListener('dragover',event=>event.preventDefault());
+async function refresh(){const p=await fetch('/api/progress').then(r=>r.json());$('fill').style.width=(p.total?p.processed/p.total*100:0)+'%';setStatus(p.message+(p.current?'\\n'+p.current:''),p.message.startsWith('Ошибка:')||p.message.startsWith('Error:'));if(p.running)setTimeout(refresh,300)}
+start.onclick=async()=>{start.disabled=true;setStatus(t.preparing);const body={src:src.value,dist:dist.value,maxSide:Number($('max').value)||1000};const r=await fetch('/api/start',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});if(!r.ok){setStatus(await r.text(),true);start.disabled=false;return}refresh().finally(()=>{start.disabled=false})};
 updateDist();
 </script></body></html>`;
 

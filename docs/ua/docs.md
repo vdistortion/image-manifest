@@ -40,6 +40,7 @@ npx image-manifest@latest
 | `--no-progress`       | Вимкнути індикатор прогресу                                               | false            |
 | `--continue-on-error` | Продовжувати обробку, навіть якщо деякі зображення помилкові              | false            |
 | `--interactive`, `-i` | Примусовий інтерактивний режим, навіть якщо передано аргументи            | false            |
+| `--ui`                | Відкрити локальний Web UI у браузері                                     | false            |
 
 ## ✨ Приклади
 
@@ -58,6 +59,9 @@ npx image-manifest --continue-on-error --no-progress --json report
 
 # Запустити інтерактивний режим (запитує всі параметри)
 npx image-manifest --interactive
+
+# Відкрити локальний Web UI
+npx image-manifest --ui
 ```
 
 ## ⚙️ Файл конфігурації

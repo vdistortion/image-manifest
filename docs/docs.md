@@ -6,9 +6,9 @@ sidebar: false
 
 ![image-manifest](/logo.webp)
 
-A CLI tool that converts images to the required format, generates a file structure in JSON, and resizes them if necessary. Useful for static websites, galleries, and automation.
+A cross-platform Node.js tool that converts images to the required format, generates a file structure in JSON, and resizes them if necessary. It can be used from the command line, a minimal local Web UI, or as a library. Useful for static websites, galleries, and automation.
 
-Run `npx image-manifest --help` to see all available options.
+Requires Node.js 22 or newer. Run `npx image-manifest --help` to see all available options.
 
 ## 📖 Usage
 
@@ -40,6 +40,7 @@ npx image-manifest@latest
 | `--no-progress`       | Disable the progress bar                                                   | false    |
 | `--continue-on-error` | Continue processing even if some images fail                               | false    |
 | `--interactive`, `-i` | Force interactive mode even if arguments are provided                      | false    |
+| `--ui`                | Open a local Web UI in the browser                                       | false    |
 
 ## ✨ Examples
 
@@ -58,7 +59,16 @@ npx image-manifest --continue-on-error --no-progress --json report
 
 # Run interactive mode (asks for every option)
 npx image-manifest --interactive
+
+# Open the local Web UI
+npx image-manifest --ui
 ```
+
+## 🌐 Local Web UI
+
+Run `npx image-manifest --ui` to open a small local interface in your browser. Enter the source folder, optionally edit the automatically suggested output folder (`<source>-webp`), choose the maximum image side, and click **Start**. The interface shows progress and converts images to WebP.
+
+The server listens on a randomly selected local port and is bound to `127.0.0.1`. The browser does not always expose a dropped folder's full path, so pasting the path manually is supported and remains the most reliable option.
 
 ## ⚙️ Configuration file
 
@@ -113,9 +123,18 @@ You can also import individual utilities for finer control:
 
 ```ts
 import { imageProcessing } from 'image-manifest/image-processing';
+import { convertToWebp } from 'image-manifest/to-webp';
 import { isImage } from 'image-manifest/is-image';
 import { collectImages } from 'image-manifest/collect-images';
 ```
+
+`convertToWebp` accepts a file path or `Buffer`, returns a WebP `Buffer` and image dimensions, and limits the longest side to 1000 pixels by default:
+
+```ts
+const { buffer, width, height } = await convertToWebp(input, 1000);
+```
+
+The source and output directories must be different. The library aborts when they are equal or when one contains the other.
 
 To enable debug output, set the `DEBUG` environment variable:
 
