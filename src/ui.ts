@@ -35,13 +35,10 @@ function automaticDist(){const value=src.value.trim().replace(/[\\\\/]+$/,'');re
 function updateDist(){if(distAuto)dist.value=automaticDist()}
 src.addEventListener('input',updateDist);
 dist.addEventListener('input',()=>{distAuto=false});
-const savedSrc=localStorage.getItem('image-manifest.src');
-const savedDist=localStorage.getItem('image-manifest.dist');
-if(savedSrc){src.value=savedSrc;dist.value=savedDist||automaticDist();distAuto=!savedDist}
 src.addEventListener('drop',event=>{event.preventDefault();const file=event.dataTransfer.files[0];const uri=event.dataTransfer.getData('text/uri-list');const path=file&&file.path||(uri&&decodeURIComponent(uri.replace('file://','').split('\\n')[0]));if(path){src.value=path;distAuto=true;updateDist();status.textContent='Папка выбрана: '+path}else status.textContent='Браузер не передал путь к папке. Вставьте путь вручную.'});
 src.addEventListener('dragover',event=>event.preventDefault());
 async function refresh(){const p=await fetch('/api/progress').then(r=>r.json());$('fill').style.width=(p.total?p.processed/p.total*100:0)+'%';status.textContent=p.message+(p.current?'\\n'+p.current:'');if(p.running)setTimeout(refresh,300)}
-start.onclick=async()=>{start.disabled=true;status.textContent='Подготовка...';localStorage.setItem('image-manifest.src',src.value);localStorage.setItem('image-manifest.dist',dist.value);const body={src:src.value,dist:dist.value,maxSide:Number($('max').value)||1000};const r=await fetch('/api/start',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});if(!r.ok){status.textContent=await r.text();start.disabled=false;return}refresh().finally(()=>{start.disabled=false})};
+start.onclick=async()=>{start.disabled=true;status.textContent='Подготовка...';const body={src:src.value,dist:dist.value,maxSide:Number($('max').value)||1000};const r=await fetch('/api/start',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});if(!r.ok){status.textContent=await r.text();start.disabled=false;return}refresh().finally(()=>{start.disabled=false})};
 updateDist();
 </script></body></html>`;
 
