@@ -40,7 +40,7 @@ npx image-manifest@latest
 | `--no-progress`       | Disable the progress bar                                                   | false    |
 | `--continue-on-error` | Continue processing even if some images fail                               | false    |
 | `--interactive`, `-i` | Force interactive mode even if arguments are provided                      | false    |
-| `--ui`                | Open a local Web UI in the browser                                       | false    |
+| `--ui`                | Open a local Web UI in the browser                                         | false    |
 
 ## ✨ Examples
 
