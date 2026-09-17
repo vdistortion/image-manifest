@@ -95,7 +95,7 @@
     "cosmiconfig": "^9.0.2",
     "debug": "^4.4.3",
     "p-limit": "^7.3.0",
-    "sharp": "^0.35.2"
+    "sharp": "^0.35.4"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

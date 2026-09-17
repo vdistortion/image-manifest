@@ -11,6 +11,7 @@ The format is inspired by [Keep a Changelog](https://keepachangelog.com/en/1.0.0
 - **Local Web UI** via `--ui` with source/output folder fields, WebP conversion, maximum-side setting, progress reporting, drag-and-drop path detection, and English, Russian, Ukrainian, and German interface labels.
 - **`convertToWebp` API** for converting a file path or `Buffer` to WebP with a maximum side of 1000 pixels by default.
 - **`image-manifest/to-webp` subpath export** for integrations such as Directus extensions.
+- A **Close** button in the Web UI to stop the local server after processing.
 
 ### Changed
 
@@ -22,6 +23,7 @@ The format is inspired by [Keep a Changelog](https://keepachangelog.com/en/1.0.0
 - `file://` paths are normalized by the Web UI.
 - Processing is rejected when source and output directories are the same, preventing accidental overwrites.
 - Web UI script errors and processing failures are highlighted clearly.
+- Updated `sharp` to `0.35.4`, removing the reported production dependency vulnerability.
 
 ## [2.1.0] - 2026-06-09
 
