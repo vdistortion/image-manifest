@@ -6,7 +6,12 @@ import { cosmiconfig } from 'cosmiconfig';
 import { Command } from 'commander';
 import { run } from './index.js';
 import type { CliOptions, OptionsType, FormatType } from './types.js';
-import { SourceNotFoundError, DistInsideSourceError, SourceInsideDistError } from './errors.js';
+import {
+  SourceNotFoundError,
+  DistInsideSourceError,
+  SourceInsideDistError,
+  SameDirectoryError,
+} from './errors.js';
 import { startUi } from './ui.js';
 import pkg from '../package.json' with { type: 'json' };
 
@@ -181,7 +186,8 @@ export async function main() {
       if (
         err instanceof SourceNotFoundError ||
         err instanceof DistInsideSourceError ||
-        err instanceof SourceInsideDistError
+        err instanceof SourceInsideDistError ||
+        err instanceof SameDirectoryError
       ) {
         console.error(err.message);
       } else {

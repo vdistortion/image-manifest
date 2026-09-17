@@ -4,6 +4,19 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname, relative, resolve } from 'node:path';
 import { collectImages } from './modules/collect-images.js';
 import { convertToWebp, DEFAULT_MAX_IMAGE_SIDE } from './modules/to-webp.js';
+import { SameDirectoryError } from './errors.js';
+
+/** Converts a pasted file:// URL into a plain filesystem path. */
+function normalizePath(value: string): string {
+  const input = value.trim();
+  if (!input.startsWith('file://')) return input;
+  const withoutScheme = input.slice('file://'.length).replace(/^\/localhost\//, '/');
+  try {
+    return decodeURIComponent(withoutScheme);
+  } catch {
+    return withoutScheme;
+  }
+}
 
 const html = `<!doctype html>
 <html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -60,12 +73,16 @@ async function body(req: IncomingMessage): Promise<UiOptions> {
 }
 
 async function processImages(src: string, dist: string, maxSide: number) {
-  const images = await collectImages(src, src, dist);
+  const absSrc = resolve(normalizePath(src));
+  const absDist = resolve(normalizePath(dist));
+  if (absSrc === absDist) throw new SameDirectoryError();
+
+  const images = await collectImages(absSrc, absSrc, absDist);
   progress.total = images.length;
   for (const image of images) {
     progress.current = image.name;
     const converted = await convertToWebp(image.path, maxSide);
-    const output = resolve(dist, relative(src, image.path)).replace(/\.[^./\\]+$/, '.webp');
+    const output = resolve(absDist, relative(absSrc, image.path)).replace(/\.[^./\\]+$/, '.webp');
     await mkdir(dirname(output), { recursive: true });
     await writeFile(output, converted.buffer);
     progress.processed++;
@@ -91,8 +108,8 @@ export async function startUi(port = 0): Promise<number> {
           progress.total = 0;
           progress.message = 'Обработка запущена';
           void processImages(
-            resolve(options.src),
-            resolve(options.dist),
+            normalizePath(options.src),
+            normalizePath(options.dist),
             options.maxSide || DEFAULT_MAX_IMAGE_SIDE,
           )
             .then(() => {

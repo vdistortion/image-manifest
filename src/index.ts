@@ -8,7 +8,12 @@ import type { OptionsType } from './types.js';
 export type { OptionsType } from './types.js';
 export { convertToWebp, DEFAULT_MAX_IMAGE_SIDE } from './modules/to-webp.js';
 export type { WebpConversionResult } from './modules/to-webp.js';
-import { SourceNotFoundError, DistInsideSourceError, SourceInsideDistError } from './errors.js';
+import {
+  SourceNotFoundError,
+  DistInsideSourceError,
+  SourceInsideDistError,
+  SameDirectoryError,
+} from './errors.js';
 
 const debug = debugLib('image-manifest:run');
 
@@ -23,6 +28,10 @@ export async function run(options: OptionsType): Promise<{ status: string; messa
   const relDistToSrc = relative(absSrc, absDist);
   if (relDistToSrc && !relDistToSrc.startsWith('..') && relDistToSrc !== '') {
     throw new DistInsideSourceError();
+  }
+
+  if (absSrc === absDist) {
+    throw new SameDirectoryError();
   }
 
   const relSrcToDist = relative(absDist, absSrc);

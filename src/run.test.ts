@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import sharp from 'sharp';
 import { run } from './index.js';
 import type { OptionsType } from './types.js';
-import { SourceNotFoundError, DistInsideSourceError } from './errors.js';
+import { SourceNotFoundError, DistInsideSourceError, SameDirectoryError } from './errors.js';
 
 describe('run (integration)', () => {
   let tmpDir: string;
@@ -122,5 +122,19 @@ describe('run (integration)', () => {
       includeSize: false,
     };
     await expect(run(options)).rejects.toThrow(DistInsideSourceError);
+  });
+
+  it('throws SameDirectoryError when src equals dist', async () => {
+    const options: OptionsType = {
+      src: srcDir,
+      dist: srcDir,
+      format: 'webp',
+      width: null,
+      height: null,
+      json: null,
+      concurrency: 1,
+      includeSize: false,
+    };
+    await expect(run(options)).rejects.toThrow(SameDirectoryError);
   });
 });

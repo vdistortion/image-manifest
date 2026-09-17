@@ -18,3 +18,10 @@ export class SourceInsideDistError extends Error {
     this.name = 'SourceInsideDistError';
   }
 }
+
+export class SameDirectoryError extends Error {
+  constructor() {
+    super('Source and output directories are the same. Aborting to prevent data loss.');
+    this.name = 'SameDirectoryError';
+  }
+}
