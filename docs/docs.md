@@ -66,9 +66,9 @@ npx image-manifest --ui
 
 ## 🌐 Local Web UI
 
-Run `npx image-manifest --ui` to open a small local interface in your browser. Enter the source folder, optionally edit the automatically suggested output folder (`<source>-webp`), choose the maximum image side, and click **Start**. The interface shows progress and converts images to WebP.
+Run `npx image-manifest --ui` to open the local interface in your browser. Enter the source folder; the output folder is suggested as `<source>-dist` and can be changed. Choose WebP, AVIF, JPG, PNG, or **Original**, then set independent maximum width and height limits in pixels. Leave both limits at their defaults (1000 px) or adjust them; the aspect ratio is preserved and the image is only resized when it exceeds a limit. Click **Start** to begin. While processing, the same button becomes **Stop processing**: the current image finishes, and the remaining images are skipped. The **Close** button is unavailable during processing.
 
-The server listens on a randomly selected local port and is bound to `127.0.0.1`. The browser does not always expose a dropped folder's full path, so pasting the path manually is supported and remains the most reliable option.
+The server binds to `127.0.0.1` on a randomly selected port. The UI follows the browser's preferred language when English, Russian, Ukrainian, or German is available (otherwise it uses English) and follows the system/browser light or dark color-scheme preference. After closing the UI, run `npx image-manifest --ui` again to reopen it. The browser does not always expose a dropped folder's full path, so pasting the path manually is supported and remains the most reliable option.
 
 ## ⚙️ Configuration file
 

@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 
 The format is inspired by [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.3.0] - 2026-10-16
+
+### Added
+
+- **Web UI format selection** for WebP, AVIF, JPG, PNG, or keeping the original format.
+- **Independent maximum width and height** controls in the Web UI; images keep their aspect ratio.
+- **Stop processing** from the Start button; the current image finishes before the next one is skipped.
+- **Automatic browser-language selection** (English fallback) and a dark theme that follows system/browser preferences.
+- Project links and a restart command on the Web UI's shutdown screen.
+
+### Changed
+
+- The automatically suggested Web UI output folder now uses the `-dist` suffix.
+- The Web UI prevents closing its server during image processing and clearly indicates disabled buttons.
+
 ## [2.2.0] - 2026-09-17
 
 ### Added

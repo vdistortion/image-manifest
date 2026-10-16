@@ -16,6 +16,8 @@ features:
     details: webp, jpg, png, avif
   - title: Генерация структуры JSON
     details: для статических сайтов без бэкенда
+  - title: Локальный Web UI
+    details: выбор формата и размеров, прогресс и остановка обработки
   - title: Интерактивный режим
     details: при запуске без аргументов
   - title: Программный API

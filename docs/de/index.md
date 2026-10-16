@@ -16,6 +16,8 @@ features:
     details: webp, jpg, png, avif
   - title: JSON-Struktur generieren
     details: für statische Seiten ohne Backend
+  - title: Lokale Web-Oberfläche
+    details: Format und Größenlimits wählen, Fortschritt verfolgen oder Verarbeitung stoppen
   - title: Interaktiver Modus
     details: bei Start ohne Argumente
   - title: Programmatic API

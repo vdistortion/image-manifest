@@ -17,7 +17,7 @@ features:
   - title: Generate JSON structure
     details: for static sites without a backend
   - title: Local Web UI
-    details: convert images without command-line options
+    details: choose format and size limits, monitor or stop a batch
   - title: Interactive mode
     details: when run without arguments
   - title: Programmatic API

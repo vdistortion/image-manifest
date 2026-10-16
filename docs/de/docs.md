@@ -66,9 +66,9 @@ npx image-manifest --ui
 
 ## 🌐 Lokale Web-Oberfläche
 
-Führen Sie `npx image-manifest --ui` aus, um die lokale Oberfläche im Browser zu öffnen. Geben Sie den Quellordner ein, ändern Sie bei Bedarf den automatisch vorgeschlagenen Ausgabeordner (`<quellordner>-webp`), wählen Sie die maximale Seite und klicken Sie auf **Starten**. Die Oberfläche zeigt den Fortschritt an und konvertiert die Bilder in WebP.
+Führen Sie `npx image-manifest --ui` aus, um die lokale Oberfläche im Browser zu öffnen. Geben Sie den Quellordner ein; als Ausgabeordner wird `<quellordner>-dist` vorgeschlagen, der geändert werden kann. Wählen Sie WebP, AVIF, JPG, PNG oder **Original** und legen Sie unabhängige maximale Breiten- und Höhenwerte in Pixeln fest. Beide Werte sind standardmäßig 1000 px. Das Seitenverhältnis bleibt erhalten; verkleinert wird nur, wenn ein Grenzwert überschritten wird. Klicken Sie auf **Starten**. Während der Verarbeitung wird dieselbe Schaltfläche zu **Verarbeitung stoppen**: Das aktuelle Bild wird fertiggestellt, die übrigen werden übersprungen. **Schließen** ist während der Verarbeitung deaktiviert.
 
-Der Server läuft nur auf `127.0.0.1` und verwendet einen zufällig freien Port. Ein Browser kann den vollständigen Pfad eines gezogenen Ordners nicht immer übergeben; das manuelle Einfügen des Pfads bleibt daher am zuverlässigsten.
+Der Server ist an `127.0.0.1` gebunden und verwendet einen zufällig ausgewählten Port. Die Oberfläche übernimmt die Browsersprache, wenn Englisch, Russisch, Ukrainisch oder Deutsch verfügbar ist, andernfalls Englisch. Das helle oder dunkle Design folgt der Browser-/Systemeinstellung. Starten Sie nach dem Schließen erneut `npx image-manifest --ui`, um die Oberfläche wieder zu öffnen. Ein Browser kann den vollständigen Pfad eines gezogenen Ordners nicht immer übergeben; das manuelle Einfügen des Pfads bleibt daher am zuverlässigsten.
 
 ## ⚙️ Konfigurationsdatei
 
