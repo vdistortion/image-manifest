@@ -21,8 +21,14 @@ mkdir img-src
 Поместите изображения в `img-src`
 
 ```shell
-npx image-manifest@latest
+# Интерактивный CLI (всегда задаёт вопросы)
+npx image-manifest@latest -i
+
+# Интерфейс в браузере
+npx image-manifest@latest --ui
 ```
+
+Запуск `npx image-manifest@latest` без аргументов использует найденный файл конфигурации, если он есть; иначе запускается интерактивный режим.
 
 ## 💻 Параметры командной строки
 

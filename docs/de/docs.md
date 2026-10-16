@@ -21,8 +21,14 @@ mkdir img-src
 Legen Sie Bilder in den Ordner `img-src`
 
 ```shell
-npx image-manifest@latest
+# Interaktive CLI (fragt immer nach Optionen)
+npx image-manifest@latest -i
+
+# Browser-Oberfläche
+npx image-manifest@latest --ui
 ```
+
+Ohne Argumente verwendet `npx image-manifest@latest` eine gefundene Konfigurationsdatei, falls vorhanden; andernfalls startet der interaktive Modus.
 
 ## 💻 Befehlszeilenoptionen
 

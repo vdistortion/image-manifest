@@ -11,8 +11,14 @@ A CLI tool to batch-convert and resize images (webp, avif, jpg, png) and generat
 ## Quick Start
 
 ```sh
-npx image-manifest@latest --json manifest
+# Interactive CLI
+npx image-manifest@latest -i
+
+# Browser UI
+npx image-manifest@latest --ui
 ```
+
+Without arguments, the CLI uses a discovered configuration file if available; otherwise it starts interactive mode. Use `-i` to always show the prompts.
 
 ## Local Web UI
 

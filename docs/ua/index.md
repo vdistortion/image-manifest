@@ -27,7 +27,11 @@ features:
 ## 🚀 Використання
 
 ```sh
-npx image-manifest@latest
+# Інтерактивний CLI
+npx image-manifest@latest -i
+
+# Інтерфейс у браузері
+npx image-manifest@latest --ui
 ```
 
 ## 🌍 Переклади

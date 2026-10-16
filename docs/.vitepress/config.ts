@@ -5,7 +5,7 @@ export default defineConfig({
   title: 'image-manifest',
   description: 'Image conversion for static websites',
   base: '/',
-  head: [['link', { rel: 'icon', href: '/favicon.ico' }]],
+  head: [['link', { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }]],
   locales: {
     root: {
       label: '🇬🇧 English',

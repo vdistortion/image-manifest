@@ -21,8 +21,14 @@ mkdir img-src
 Place images inside `img-src`
 
 ```shell
-npx image-manifest@latest
+# Interactive CLI (always asks for options)
+npx image-manifest@latest -i
+
+# Browser UI
+npx image-manifest@latest --ui
 ```
+
+Running `npx image-manifest@latest` without arguments uses a discovered configuration file if one exists; otherwise, it starts interactive mode.
 
 ## 💻 Command-line options
 

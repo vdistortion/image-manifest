@@ -27,7 +27,11 @@ features:
 ## 🚀 Запуск
 
 ```sh
-npx image-manifest@latest
+# Интерактивный CLI
+npx image-manifest@latest -i
+
+# Интерфейс в браузере
+npx image-manifest@latest --ui
 ```
 
 ## 🌍 Переводы
