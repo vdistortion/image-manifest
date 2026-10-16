@@ -21,7 +21,7 @@ function normalizePath(value: string): string {
 const html = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>image-manifest</title><style>
-body{font:16px system-ui,sans-serif;max-width:680px;margin:40px auto;padding:0 20px;color:#222}label{display:block;margin:16px 0 6px}input,select{box-sizing:border-box;width:100%;padding:10px;font:inherit}button{margin-top:22px;padding:10px 22px;font:inherit;cursor:pointer}.languages{display:flex;align-items:center;gap:6px;margin-bottom:22px}.languages button{margin:0;padding:5px 9px;border:1px solid #ccc;background:#fff;border-radius:5px}.languages button.active{border-color:#369eff;background:#eaf4ff}.bar{height:18px;background:#eee;margin-top:22px}.fill{height:100%;width:0;background:#369eff;transition:width .2s}.status{margin-top:12px;white-space:pre-wrap;color:#555}.status.error{color:#b00020;font-weight:700}</style></head>
+body{font:16px system-ui,sans-serif;max-width:680px;margin:40px auto;padding:0 20px;color:#222}label{display:block;margin:16px 0 6px}input,select{box-sizing:border-box;width:100%;padding:10px;font:inherit}button{margin-top:22px;padding:10px 22px;font:inherit;cursor:pointer}.languages{display:flex;align-items:center;gap:6px;margin-bottom:22px}.languages button{margin:0;padding:5px 9px;border:1px solid #ccc;background:#fff;border-radius:5px}.languages button.active{border-color:#369eff;background:#eaf4ff}.bar{height:18px;background:#eee;margin-top:22px}.fill{height:100%;width:0;background:#369eff;transition:width .2s}.status{margin-top:12px;white-space:pre-wrap;color:#555}.status.error{color:#b00020;font-weight:700}:root{color-scheme:light dark}@media(prefers-color-scheme:dark){body{background:#181a1b;color:#e8e8e8}input,select{background:#242729;color:#e8e8e8;border:1px solid #555}input::placeholder{color:#aaa}button{background:#303436;color:#eee;border:1px solid #555}.languages button.active{border-color:#369eff;background:#16324a}.bar{background:#333}.status{color:#bbb}.status.error{color:#ff8585}}</style></head>
 <body><div class="languages"><button type="button" data-language="en">🇬🇧 English</button><button type="button" data-language="ru">🇷🇺 Русский</button><button type="button" data-language="uk">🇺🇦 Українська</button><button type="button" data-language="de">🇩🇪 Deutsch</button></div>
 <h1 id="title">Image conversion to WebP</h1>
 <label id="src-label" for="src">Source folder</label><input id="src" placeholder="For example: /home/user/photos or C:\\Users\\User\\Pictures">
@@ -39,7 +39,8 @@ function setStatus(message,error=false){status.textContent=message;status.classL
 function applyLanguage(code){t=translations[code]||translations.en;document.documentElement.lang=code;languageButtons.forEach(button=>button.classList.toggle('active',button.dataset.language===code));title.textContent=t.title;$('src-label').textContent=t.src;dropHint.textContent=t.drop;$('dist-label').textContent=t.dist;dist.placeholder=t.distPlaceholder;$('format-label').textContent=t.format;$('width-label').textContent=t.width;$('height-label').textContent=t.height;start.textContent=t.start;stop.textContent=t.stop;if(!status.classList.contains('error'))setStatus(t.ready)}
 languageButtons.forEach(button=>button.addEventListener('click',()=>applyLanguage(button.dataset.language)));
 const title=$('title'),dropHint=$('drop-hint');
-applyLanguage('en');
+const browserLanguage=(navigator.language||'en').split('-')[0].toLowerCase();
+applyLanguage(translations[browserLanguage]?browserLanguage:'en');
 stop.disabled=true;
 function automaticDist(){const value=src.value.trim().replace(/[\\\\/]+$/,'');return value?value+'-dist':''}
 function updateDist(){if(distAuto)dist.value=automaticDist()}
