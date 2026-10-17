@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { existsSync, realpathSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { confirm, input, number, rawlist } from '@inquirer/prompts';
 import { cosmiconfig } from 'cosmiconfig';
 import { Command } from 'commander';
@@ -200,7 +201,7 @@ export async function main() {
   await program.parseAsync(process.argv);
 }
 
-const currentFile = realpathSync(new URL(import.meta.url).pathname);
+const currentFile = realpathSync(fileURLToPath(import.meta.url));
 if (process.argv[1] && realpathSync(resolve(process.argv[1])) === currentFile) {
   main().catch((err) => {
     console.error('Fatal error:', err);
